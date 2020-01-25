@@ -1,0 +1,58 @@
+<style>
+    * {
+      box-sizing: border-box;
+    }
+    
+    /* Create two equal columns that floats next to each other */
+    .column {
+      float: left;
+      width: 50%;
+      padding: 10px;
+      height: 300px; /* Should be removed. Only for demonstration */
+    }
+    
+    /* Clear floats after the columns */
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+</style>
+<app-header-admin></app-header-admin>
+<br><br><br><br>
+    <br>
+    <div class="row">
+      <div class="column" style="border-right: 1px solid;">
+        <h2 style="text-align: center;">Add new Catagory</h2>
+        <div style="padding-left: 100px;">
+            <br>
+            <b style="color: red;">{{sucnewcate}}</b>
+            <br>
+            <br>
+            <form class="form-inline" (submit)=addCatagory($event)>
+                
+                <input class="form-control" type="text" name="cname" id="cname" placeholder="New Catagory Name" required/>
+                
+                <input class="btn btn-primary" style="margin-left: 50px;" type="submit"  value="Add"/>
+            </form>
+        </div>
+      </div>
+      <div class="column" style="border-left: 1px solid;">
+        <h2 style="text-align: center;">Rename Catagory Name</h2>
+        <div style="padding-left: 100px;">
+            <br>
+            <b style="color: red;">{{succate}}</b>
+            <br><br>
+            <form class="form-inline" (submit)=renameCat($event)>
+                <select class="form-control" (change)="selectChangeHandler($event)">
+                  <option >-select-</option>
+                  <option  *ngFor="let i of catagories" value="{{i.Catagory}}">{{i.Catagory}}</option>
+                </select>
+                  
+                  <input class="form-control" name="rename" value="{{rename}}" id="rename" style="margin-left: 50px;" placeholder="Rename here..." required/>
+                  
+                  <input type="submit" class="btn btn-primary" style="margin-left: 50px;" value="Rename"/>
+            </form>
+        </div>
+      </div>
+    </div>
