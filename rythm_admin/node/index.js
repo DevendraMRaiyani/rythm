@@ -48,6 +48,13 @@ app.get('/adminlogin',(req,res)=>{
                 res.json(result);
     });
 });
+app.post('/song/add',(req,res) =>{
+  let data =req.body;
+  db.collection('songs').insertOne(data,function(err, result){ 
+    if (err) throw err;  
+      res.json(result.result);
+});
+});
 
 app.get('/checkCatagory',(req,res)=>{
     var url_parts = geturl.parse(req.url, true);
@@ -70,7 +77,7 @@ app.get('/checkCatagory',(req,res)=>{
       useUnifiedTopology: true
       }, function(err, db) {
       if (err) throw err;
-      var dbo = db.db("mmusic");
+      var dbo = db.db("rythm");
       //Find the first document in the customers collection:
       dbo.collection("songs").find({}).toArray( function(err, result) {
         if (err) throw err;
@@ -87,7 +94,7 @@ app.get('/checkCatagory',(req,res)=>{
       useUnifiedTopology: true
       }, function(err, db) {
       if (err) throw err;
-      var dbo = db.db("mmusic");
+      var dbo = db.db("rythm");
       //Find the first document in the customers collection:
       dbo.collection("Catagories").find({}).toArray( function(err, result) {
         if (err) throw err;
@@ -104,7 +111,7 @@ app.get('/checkCatagory',(req,res)=>{
       useUnifiedTopology: true
       }, function(err, db) {
       if (err) throw err;
-      var dbo = db.db("mmusic");
+      var dbo = db.db("rythm");
       //Find the first document in the customers collection:
       dbo.collection("playlists").find({}).toArray( function(err, result) {
         if (err) throw err;

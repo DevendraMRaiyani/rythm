@@ -12,6 +12,8 @@ export class ManageSongsComponent implements OnInit {
   catagories
   playlists
   searchText;
+  imgurl:String= null;
+  fileToUpload:File=null;
   songs;
   public isCollapsed = true;
   // heroes = [
@@ -38,6 +40,31 @@ export class ManageSongsComponent implements OnInit {
     }
   }
 
+
+
+  handleFileInput(file:FileList){
+    this.fileToUpload = file.item(0)
+    var reader = new FileReader()
+    reader.onload = (event: any) => {
+      this.imgurl = event.target.result;
+      console.log(this.imgurl)
+    }
+    reader.readAsDataURL(this.fileToUpload);
+
+  }
+
+  addSong(event)
+  {
+    event.preventDefault()
+    const target = event.target;
+    //const cname = target.querySelector('#sname').value;
+    const obj = {
+      name : target.querySelector('#sname').value,
+      photo : this.imgurl
+    }
+    this.http.post(`http://localhost:8080/song/add`,obj).subscribe(res => console.log('Done'));
+    //this.http.get("http://localhost:8080/checkCatagory?cname="+cname).subscribe((data) => this.checkCatagory(data,cname));
+  }
   loadSongs(data)
   {
     var x;
