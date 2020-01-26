@@ -9,7 +9,7 @@ var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://localhost:27017/";
 
 const mongoose = require('mongoose'); 
-mongoose.connect('mongodb://localhost:27017/rythm',{
+mongoose.connect('mongodb://localhost:27017/mmusic',{
 	useNewUrlParser: true,
 	useUnifiedTopology: true
   }); 
@@ -64,13 +64,30 @@ app.get('/checkCatagory',(req,res)=>{
     });			
   });
 
+  app.get('/loadSongs',(req,res)=>{
+    MongoClient.connect(url,{
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+      }, function(err, db) {
+      if (err) throw err;
+      var dbo = db.db("mmusic");
+      //Find the first document in the customers collection:
+      dbo.collection("songs").find({}).toArray( function(err, result) {
+        if (err) throw err;
+        //console.log("catagories ok");
+        res.json(result);
+        db.close();
+      });
+  });
+  })
+
   app.get('/loadCata',(req,res)=>{
     MongoClient.connect(url,{
       useNewUrlParser: true,
       useUnifiedTopology: true
       }, function(err, db) {
       if (err) throw err;
-      var dbo = db.db("rythm");
+      var dbo = db.db("mmusic");
       //Find the first document in the customers collection:
       dbo.collection("Catagories").find({}).toArray( function(err, result) {
         if (err) throw err;
@@ -87,7 +104,7 @@ app.get('/checkCatagory',(req,res)=>{
       useUnifiedTopology: true
       }, function(err, db) {
       if (err) throw err;
-      var dbo = db.db("rythm");
+      var dbo = db.db("mmusic");
       //Find the first document in the customers collection:
       dbo.collection("playlists").find({}).toArray( function(err, result) {
         if (err) throw err;
