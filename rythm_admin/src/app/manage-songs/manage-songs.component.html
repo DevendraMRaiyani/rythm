@@ -34,7 +34,9 @@
                 </tr>
                 <tr> 
                   Choose Song File
-                  <input  type="file" name="sfile" id="sfile" accept="image/*" required/>
+                  <!-- <input  type="file" name="sfile" id="sfile" accept="image/*" required/> -->
+                  <img src="{{imgurl}}"  style="width: 250px;height: 200px;">
+                        <input type="file" (change)="handleFileInput($event.target.files)"  />
                 </tr>
                 <tr>
                   <span style="color: red;font-size: 12px;">(Note: only .mp3 are allowed)</span>
