@@ -3,6 +3,8 @@ const bodyParser = require('body-parser')
 const app = express()
 const geturl=require('url')
 
+
+
 var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://localhost:27017/";
 
@@ -79,6 +81,37 @@ app.get('/checkCatagory',(req,res)=>{
   });
   })
 
+  app.get('/loadPlaylists',(req,res)=>{
+    MongoClient.connect(url,{
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+      }, function(err, db) {
+      if (err) throw err;
+      var dbo = db.db("rythm");
+      //Find the first document in the customers collection:
+      dbo.collection("playlists").find({}).toArray( function(err, result) {
+        if (err) throw err;
+        //console.log("catagories ok");
+        res.json(result);
+        db.close();
+      });
+  });
+  })
+
+  app.get('/removePlaylist',(req,res)=>{
+    var url_parts = geturl.parse(req.url, true);
+    var query = url_parts.query;
+    var name=query.name;
+    var data = {  
+        "name":name
+      } 
+      console.log("deleted : "+data.name);
+    db.collection('playlists').deleteOne(data,function(err, result){ 
+      if (err) throw err;
+      res.json(result.result);
+    });	  
+  });
+
 app.get('/addCatagory',(req,res)=>{
     var url_parts = geturl.parse(req.url, true);
     var query = url_parts.query;
@@ -109,6 +142,7 @@ app.get('/addCatagory',(req,res)=>{
       });	
       res.json("{n:1,ok:1}");		
   });
+
 
 const prt = 8080;
 app.listen(prt,function(){

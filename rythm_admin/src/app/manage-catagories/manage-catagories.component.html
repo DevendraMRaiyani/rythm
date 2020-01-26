@@ -8,7 +8,7 @@
       float: left;
       width: 50%;
       padding: 10px;
-      height: 300px; /* Should be removed. Only for demonstration */
+      height: auto; /* Should be removed. Only for demonstration */
     }
     
     /* Clear floats after the columns */
@@ -33,7 +33,7 @@
                 
                 <input class="form-control" type="text" name="cname" id="cname" placeholder="New Catagory Name" required/>
                 
-                <input class="btn btn-primary" style="margin-left: 50px;" type="submit"  value="Add"/>
+                <input class="btn btn-primary" style="margin-left: 50px;" type="submit"  value="Add Category"/>
             </form>
         </div>
       </div>
@@ -51,8 +51,10 @@
                   
                   <input class="form-control" name="rename" value="{{rename}}" id="rename" style="margin-left: 50px;" placeholder="Rename here..." required/>
                   
-                  <input type="submit" class="btn btn-primary" style="margin-left: 50px;" value="Rename"/>
+                  <input type="submit" class="btn btn-primary" style="margin-left: 50px;" value="Rename  Category"/>
             </form>
         </div>
       </div>
     </div>
+
+    <app-footer-admin></app-footer-admin>

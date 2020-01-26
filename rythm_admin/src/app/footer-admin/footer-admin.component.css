@@ -1,0 +1,85 @@
+.header-font {
+    font-family: "Josefin Slab","Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: #fd1506;
+  }
+  
+  .bg-primary {
+   background-color: #000 !important;
+  }
+   
+  body {font-family: 'Quicksand-Medium'}
+  @font-face {
+	  font-family: "ForteMT";
+	  src: url("/assets/fonts/FORTE.woff") format("woff");
+  }
+  @font-face {
+	  font-family: "ForteMT";
+	  src: url("/assets/fonts/FORTE.woff") format("woff");
+  }
+  
+ .sample{
+  font-family: 'ForteMT';
+  font-size: 40px;
+  color:red;
+ }
+
+  .bg-circle-outline
+  {
+    width: 35px;
+    height: 35px;
+    color:smoke;
+    padding: 7px;
+    
+    border-color: smoke;
+    border-radius: 50%;
+  }
+  
+  
+  .bg-circle a, a:hover, .media a:focus
+  {
+    text-decoration: none !important;
+    outline: none;
+    color: #ececec;
+  }
+  .bg-circle-outline a, a:hover, .media a:focus
+  {
+    text-decoration: none !important;
+    outline: none;
+    color: #ececec;
+  }
+  .footer {
+      background: #EDEFF1;
+      height: auto;
+      padding-bottom: 30px;
+      position: relative;
+      width: 100%;
+      border-bottom: 1px solid #CCCCCC;
+      border-top: 1px solid #DDDDDD;
+  }
+  .footer p {
+      margin: 0;
+  }
+  .footer h3 {
+      border-bottom: 1px solid #BAC1C8;
+      color: #54697E;
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 27px;
+      padding: 40px 0 10px;
+      text-transform: uppercase;
+  }
+  .footer ul {
+      font-size: 13px;
+      list-style-type: none;
+      margin-left: 0;
+      padding-left: 0;
+      margin-top: 15px;
+      color: #7F8C8D;
+  }
+  .footer ul li a {
+      padding: 0 0 5px 0;
+      display: block;
+  }
+  .footer a {
+      color: #78828D
+  }

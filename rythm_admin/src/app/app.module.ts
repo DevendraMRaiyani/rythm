@@ -11,6 +11,8 @@ import { ManageCatagoriesComponent } from './manage-catagories/manage-catagories
 import { HeaderAdminComponent } from './header-admin/header-admin.component';
 import { ManagePlaylistsComponent } from './manage-playlists/manage-playlists.component';
 import { ManageSongsComponent } from './manage-songs/manage-songs.component';
+import { HttpClientModule } from '@angular/common/http';
+import {FooterAdminComponent} from './footer-admin/footer-admin.component';
 
 const appRoutes: Routes = [
   {
@@ -32,7 +34,8 @@ const appRoutes: Routes = [
   {
     path:'managesongs',
     component: ManageSongsComponent
-  }];
+  }
+];
 
 
 @NgModule({
@@ -43,13 +46,15 @@ const appRoutes: Routes = [
     ManageCatagoriesComponent,
     HeaderAdminComponent,
     ManagePlaylistsComponent,
-    ManageSongsComponent
+    ManageSongsComponent,
+    FooterAdminComponent
   ],
   imports: [
     BrowserModule,
     HttpModule,
     RouterModule.forRoot(appRoutes),
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule  
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]
