@@ -13,6 +13,7 @@ export class ManageSongsComponent implements OnInit {
   playlists
   searchText;
   songs;
+  public isCollapsed = true;
   // heroes = [
   //   { id: 11, name: 'Mr. Nice', country: 'India' },
   //   { id: 12, name: 'Narco' , country: 'USA'},
@@ -60,5 +61,10 @@ export class ManageSongsComponent implements OnInit {
     var y = Array.of(x._body);
     var arr=JSON.parse(<any>y);
     this.catagories=arr;
+  }
+
+  removeSong(value)
+  {
+    console.log(value)
   }
 }

@@ -32,6 +32,7 @@ export class AdminLoginComponent implements OnInit {
     x=data;
     var y = Array.of(x._body);
     var arr=JSON.parse(<any>y);
+    console.log(arr);
     if(arr.length==0)
       alert("Invalid Username/Password");
     else{
