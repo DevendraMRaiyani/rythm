@@ -1,3 +1,8 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+
+
 <style>
     * {
       box-sizing: border-box;
@@ -8,7 +13,7 @@
       float: left;
       width: 50%;
       padding: 10px;
-      height: 300px; /* Should be removed. Only for demonstration */
+      height: auto; /* Should be removed. Only for demonstration */
     }
     
     /* Clear floats after the columns */
@@ -26,29 +31,46 @@
         <h2 style="text-align: center;">Add new Playlist</h2>
         <div style="padding-left: 100px;">
             <br>
-            <form class="form-inline" (submit)=addCatagory($event)>
-                
-                <input class="form-control" type="text" name="cname" id="cname" placeholder="Enter New Catagory Name" required/>
-                
-                <input class="btn btn-primary"  type="submit" onclick="location.reload()" value="Add"/>
+            
+              <form class="form-inline" (submit)=addPlaylist($event)>
+            
+            
+              <table>
+                <tr>
+                  <input class="form-control" type="text" name="plname" id="plname" placeholder="Enter New Playlist Name" required/>
+                </tr>
+                <tr> 
+                  Choose Playlist Icon 
+                  <input  type="file" name="plimg" id="plimg" accept="image/*" required/>
+                </tr>
+                <tr>
+                  <span style="color: red;font-size: 12px;">(Note: only jpg or png files are allowed)</span>
+                </tr>
+                <tr>
+                  <input class="btn btn-primary"  type="submit" value="Create Playlist"/>
+                </tr>
+              </table>
             </form>
+          
         </div>
       </div>
       <div class="column" style="border-left: 1px solid;">
         <h2 style="text-align: center;">Update Playlist</h2>
         <div style="padding-left: 100px;">
             <br>
-            <form class="form-inline" (submit)=renameCat($event)>
+            <form class="form-inline">
            
                 <select class="form-control" (change)="selectChangeHandler($event)">
                   <option >-select-</option>
-                  <option  *ngFor="let i of catagories" value="{{i.Catagory}}">{{i.Catagory}}</option>
+                  <option *ngFor="let i of playlists" value="{{i.name}}">{{i.name}}</option>
                 </select>
-                  
+                <input class="btn btn-danger"  type="submit" value="Remove Playlist" (click)=removePlaylist()/>
                   <input class="form-control" name="rename" value="{{rename}}" id="rename" style="margin-left: 50px;" placeholder="Rename here..." required/>
                   
-                  <input type="submit" class="btn btn-primary" onclick="location.reload()" style="margin-left: 50px;" value="Rename"/>
+                  <input type="submit" class="btn btn-primary" style="margin-left: 50px;" value="Update Changes"/>
             </form>
         </div>
       </div>
     </div>
+
+    <app-footer-admin></app-footer-admin>
