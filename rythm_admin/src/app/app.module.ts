@@ -14,10 +14,10 @@ import { ManageSongsComponent } from './manage-songs/manage-songs.component';
 import { HttpClientModule } from '@angular/common/http';
 import {FooterAdminComponent} from './footer-admin/footer-admin.component';
 import { FormsModule } from '@angular/forms';
-
-// search module
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
-  import { from } from 'rxjs';
+
+
 
 const appRoutes: Routes = [
   {
@@ -53,7 +53,7 @@ const appRoutes: Routes = [
     ManagePlaylistsComponent,
     ManageSongsComponent,
     FooterAdminComponent
-  ],
+    ],
   imports: [
     BrowserModule,
     HttpModule,
@@ -61,7 +61,8 @@ const appRoutes: Routes = [
     AppRoutingModule,
     HttpClientModule,  
     FormsModule, 
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    NgbModule
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

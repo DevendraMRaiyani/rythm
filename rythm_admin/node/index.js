@@ -33,20 +33,20 @@ app.use(function (req, res, next) {
 });
 
 app.get('/adminlogin',(req,res)=>{
-    var url_parts = geturl.parse(req.url, true);
-    var query = url_parts.query;
-    var unm=query.uname;
-    var pass=query.pass;
-    var data = { 
-          "UserName": unm, 
-          "Password":pass
-      } 
-  
-      db.collection('AdminUsers').find(data).toArray(function(err, result){ 
-          
-          if (err) throw err;
-                  res.json(result);
-      });
+  var url_parts = geturl.parse(req.url, true);
+  var query = url_parts.query;
+  var unm=query.uname;
+  var pass=query.pass;
+  var data = { 
+        "UserName":unm, 
+        "Password":pass
+    } 
+
+    db.collection('AdminUsers').find(data).toArray(function(err, result){ 
+        
+        if (err) throw err;
+                res.json(result);
+    });
 });
 app.post('/song/add',(req,res) =>{
   let data =req.body;
