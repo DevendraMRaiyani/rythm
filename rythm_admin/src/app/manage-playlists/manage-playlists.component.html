@@ -13,7 +13,7 @@
       float: left;
       width: 50%;
       padding: 10px;
-      height: auto; /* Should be removed. Only for demonstration */
+      height: 400px; /* Should be removed. Only for demonstration */
     }
     
     /* Clear floats after the columns */
@@ -31,27 +31,42 @@
         <h2 style="text-align: center;">Add new Playlist</h2>
         <div style="padding-left: 100px;">
             <br>
-            
               <form class="form-inline" (submit)=addPlaylist($event)>
-            
-            
               <table>
                 <tr>
-                  <input class="form-control" type="text" name="plname" id="plname" placeholder="Enter New Playlist Name" required/>
+                  <td>
+                    Playlist Name:
+                  </td>
+                  <td>
+                    <input class="form-control" type="text" name="plname" id="plname" placeholder="Enter New Playlist Name" required/>
+                  </td>
                 </tr>
+                <br/>
                 <tr> 
-                  Choose Playlist Icon 
-                  <input  type="file" name="plimg" id="plimg" accept="image/*" required/>
+                  <td>
+                    Choose Playlist Icon:
+                  </td>
+                  
+                  <td>
+                    <input  type="file" name="plimg" id="plimg" accept="image/*" required/>
+                    <tr>
+                      <td>
+                        <span style="color: red;font-size: 12px;">(Note: only jpg or png files are allowed)</span>
+                      </td>
+                      
+                    </tr>  
+                  </td> 
                 </tr>
+                <br/>
                 <tr>
-                  <span style="color: red;font-size: 12px;">(Note: only jpg or png files are allowed)</span>
-                </tr>
-                <tr>
-                  <input class="btn btn-primary"  type="submit" value="Create Playlist"/>
+                  <td></td>
+                  <td>
+                    <input class="btn btn-primary"  type="submit" value="Create Playlist"/>
+                  </td>
+                  
                 </tr>
               </table>
             </form>
-          
         </div>
       </div>
       <div class="column" style="border-left: 1px solid;">
@@ -59,18 +74,40 @@
         <div style="padding-left: 100px;">
             <br>
             <form class="form-inline">
-           
-                <select class="form-control" (change)="selectChangeHandler($event)">
-                  <option >-select-</option>
-                  <option *ngFor="let i of playlists" value="{{i.name}}">{{i.name}}</option>
-                </select>
-                <input class="btn btn-danger"  type="submit" value="Remove Playlist" (click)=removePlaylist()/>
-                  <input class="form-control" name="rename" value="{{rename}}" id="rename" style="margin-left: 50px;" placeholder="Rename here..." required/>
-                  
-                  <input type="submit" class="btn btn-primary" style="margin-left: 50px;" value="Update Changes"/>
+              <table>
+                <tr>
+                  <td>
+                    Playlist Name:
+                  </td>
+                  <td>
+                    <select class="form-control" (change)="selectChangeHandler($event)">
+                      <option >-select-</option>
+                      <option *ngFor="let i of playlists" value="{{i.name}}">{{i.name}}</option>
+                    </select>
+                  </td>
+                  <td>
+                    <input class="btn btn-danger"  type="submit" value="Remove Playlist" (click)=removePlaylist()/>
+                  </td>
+                </tr>
+                <br/>
+                <tr>
+                  <td>
+                    Rename Playlist:
+                  </td>
+                  <td>
+                    <input class="form-control" name="rename" value="{{rename}}" id="rename" placeholder="Rename here..." required/>
+                  </td>
+                </tr>
+                <br/>
+                <tr>
+                  <td></td>
+                  <td>
+                    <input type="submit" class="btn btn-primary" style="margin-left: 50px;" value="Update Changes"/>
+                  </td>
+                </tr>
+              </table>     
             </form>
         </div>
       </div>
     </div>
-
     <app-footer-admin></app-footer-admin>
