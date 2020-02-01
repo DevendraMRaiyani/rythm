@@ -38,51 +38,66 @@
                 
               <table>
                 <tr>
-                  <input class="form-control" type="text" name="sname" id="sname" placeholder="Enter New Song Name" required/>
+                  <td>Song Name:</td>
+                  <td>
+                    <input class="form-control" type="text" name="sname" id="sname" placeholder="Enter New Song Name" required/>
+                  </td>
                 </tr>
+                <br/>
                 <tr> 
-                  Choose Song File
+                  <td>Choose Song File:</td>
+                  <td>
+                    <input type="file" (change)="handleFileInput($event.target.files)"  /><br/>
+                    <span style="color: red;font-size: 12px;">(Note: only .mp3 are allowed)</span>
+                  </td>
                   <!-- <input  type="file" name="sfile" id="sfile" accept="image/*" required/> -->
-                  <img src="{{imgurl}}"  style="width: 250px;height: 200px;">
-                        <input type="file" (change)="handleFileInput($event.target.files)"  />
                 </tr>
+                <br/>
                 <tr>
-                  <span style="color: red;font-size: 12px;">(Note: only .mp3 are allowed)</span>
+                  <td>Film Name:</td>
+                  <td>
+                    <input class="form-control" type="text" name="fname" id="fname" placeholder="Enter Film Name (Optional)"/>
+                  </td>
                 </tr>
+                <br/>
                 <tr>
-                  <input class="form-control" type="text" name="fname" id="fname" placeholder="Enter Film Name (Optional)"/>
+                  <td>Release Date:</td>
+                  <td>
+                    <input class="form-control" type="date" name="redate" id="redate" placeholder="Enter Release Date of Song" required/>
+                  </td>
                 </tr>
+                <br/>
                 <tr>
-                  <input class="form-control" type="date" name="redate" id="redate" placeholder="Enter Release Date of Song" required/>
+                  <td>Artist Name:</td>
+                  <td>
+                    <input class="form-control" type="text" name="artist" id="artist" placeholder="Enter Name of Artist" required/>
+                  </td>
                 </tr>
+                <br/>
                 <tr>
-                  <input class="form-control" type="text" name="artist" id="artist" placeholder="Enter Name of Artist" required/>
+                  <td>Select Catagory of Song:</td>
+                  <td>
+                    <select class="form-control">
+                      <option >-select-</option>
+                      <option  *ngFor="let i of catagories" value="{{i.Catagory}}">{{i.Catagory}}</option>
+                    </select>
+                  </td>
                 </tr>
+                <br/>
                 <tr>
-                  Select Catagory of Song:
-                  <select class="form-control">
-                    <option >-select-</option>
-                    <option  *ngFor="let i of catagories" value="{{i.Catagory}}">{{i.Catagory}}</option>
-                  </select>
+                  <td>Select Playlist(s) for Song: </td>
+                  <td rowspan="2">
+                    <div style="display: inline;" *ngFor="let i of playlists">
+                    <input class="form-control" type="checkbox" name="{{i.name}}" value="{{i.name}}">{{i.name}}<br/>
+                    </div>
+                  </td>
                 </tr>
+                <br/>
                 <tr>
-                  <table>
-                    <tr>
-                      <td>
-                      Select Playlist(s) for Song: 
-                      </td>
-                      <td>
-                        <tr>
-                          <div style="display: inline;" *ngFor="let i of playlists">
-                          <input class="form-control" type="checkbox" name="{{i.name}}" value="{{i.name}}">{{i.name}} |  
-                          </div>
-                        </tr>
-                      </td>
-                    </tr>
-                  </table>
-                </tr>
-                <tr>
-                  <input class="btn btn-primary"  type="submit" value="Add Song"/>
+                  <td></td>
+                  <td>
+                    <input class="btn btn-primary"  type="submit" value="Add Song"/>
+                  </td>
                 </tr>
               </table>
             </form>
@@ -116,7 +131,7 @@
         </div>
       </div>
     </div>
-
+    <app-footer-admin></app-footer-admin>
    
 <!--
     <div *ngVar="true; let variable">
