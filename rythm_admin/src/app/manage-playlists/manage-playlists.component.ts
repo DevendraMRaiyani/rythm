@@ -11,6 +11,8 @@ import { CookieService } from 'ngx-cookie-service';
 export class ManagePlaylistsComponent implements OnInit {
   playlists
   rename
+  imgurl:String= null;
+  fileToUpload:File=null;
   constructor(public http:Http,public router:Router,public cookie:CookieService) { }
   ngOnInit() {
     if(!(this.cookie.check("Adminuname") && this.cookie.check("Adminuid")))
@@ -33,6 +35,17 @@ export class ManagePlaylistsComponent implements OnInit {
       this.rename=t;
     else
       this.rename="";
+  }
+
+  handleFileInput(file:FileList){
+    this.fileToUpload = file.item(0)
+    var reader = new FileReader()
+    reader.onload = (event: any) => {
+      this.imgurl = event.target.result;
+      console.log(this.imgurl)
+    }
+    reader.readAsDataURL(this.fileToUpload);
+
   }
   
   removePlaylist(){
