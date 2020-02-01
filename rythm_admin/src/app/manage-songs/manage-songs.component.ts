@@ -11,7 +11,8 @@ import { CookieService } from 'ngx-cookie-service';
 export class ManageSongsComponent implements OnInit {
   catagories
   playlists
-  searchText;
+  searchText
+  rename=""
   imgurl:String= null;
   fileToUpload:File=null;
   songs;
@@ -52,7 +53,13 @@ export class ManageSongsComponent implements OnInit {
     reader.readAsDataURL(this.fileToUpload);
 
   }
-
+  selectChangeHandler (event: any) {
+    var t=event.target.value;
+    if(t!="-select-")
+      this.rename=t;
+    else
+      this.rename="";
+  }
   addSong(event)
   {
     event.preventDefault()
@@ -60,7 +67,11 @@ export class ManageSongsComponent implements OnInit {
     //const cname = target.querySelector('#sname').value;
     const obj = {
       name : target.querySelector('#sname').value,
-      photo : this.imgurl
+      filmname:target.querySelector('#fname').value,
+      releasedate:target.querySelector('#redate').value,
+      artists:target.querySelector('#artist').value,
+      catagory:this.rename,
+      songfile : this.imgurl
     }
     this.http.post(`http://localhost:8080/song/add`,obj).subscribe(res => console.log('Done'));
     //this.http.get("http://localhost:8080/checkCatagory?cname="+cname).subscribe((data) => this.checkCatagory(data,cname));
