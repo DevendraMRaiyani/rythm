@@ -37,20 +37,20 @@
             <form class="form-inline" (submit)=addSong($event)>
                 
               <table>
+                <tr> 
+                  <td>Choose Song File:</td>
+                  <td>
+                    <input type="file" (change)="handleFileInput($event.target.files)" name="sfile"/><br/>
+                    <span style="color: red;font-size: 12px;">(Note: only .mp3 are allowed)</span>
+                  </td>
+                  <!-- <input  type="file" name="sfile" id="sfile" accept="image/*" required/> -->
+                </tr>
+                <br/>
                 <tr>
                   <td>Song Name:</td>
                   <td>
                     <input class="form-control" type="text" name="sname" id="sname" placeholder="Enter New Song Name" required/>
                   </td>
-                </tr>
-                <br/>
-                <tr> 
-                  <td>Choose Song File:</td>
-                  <td>
-                    <input type="file" (change)="handleFileInput($event.target.files)"  /><br/>
-                    <span style="color: red;font-size: 12px;">(Note: only .mp3 are allowed)</span>
-                  </td>
-                  <!-- <input  type="file" name="sfile" id="sfile" accept="image/*" required/> -->
                 </tr>
                 <br/>
                 <tr>
@@ -77,7 +77,7 @@
                 <tr>
                   <td>Select Catagory of Song:</td>
                   <td>
-                    <select class="form-control">
+                    <select class="form-control" (change)="selectChangeHandler($event)">
                       <option >-select-</option>
                       <option  *ngFor="let i of catagories" value="{{i.Catagory}}">{{i.Catagory}}</option>
                     </select>
@@ -118,7 +118,10 @@
                   
                   <td #td1 class="col-md-4">{{song.name}}</td>
                   <td class="col-md-2">
-                    <i class="fa fa-edit" title="Update Song"></i>
+                    <i (click)=playSong(td1.innerHTML) class="fa fa-play" title="Play"></i>
+                  </td>
+                  <td class="col-md-2">
+                    <i (click)=editSong(td1.innerHTML) class="fa fa-edit" title="Update Song"></i>
                   </td>
                   <td class="col-md-2">
                     <a href="/managesongs" style="text-decoration: none;"><i (click)=removeSong(td1.innerHTML) class="fa fa-trash-o" style="color: red;" title="Delete Song"></i></a>

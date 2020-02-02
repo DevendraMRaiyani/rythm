@@ -15,6 +15,7 @@ export class ManageSongsComponent implements OnInit {
   imgurl:String= null;
   fileToUpload:File=null;
   songs;
+  rename=""
   public isCollapsed = true;
   // heroes = [
   //   { id: 11, name: 'Mr. Nice', country: 'India' },
@@ -58,13 +59,29 @@ export class ManageSongsComponent implements OnInit {
     event.preventDefault()
     const target = event.target;
     //const cname = target.querySelector('#sname').value;
-    const obj = {
+    /*const obj = {
       name : target.querySelector('#sname').value,
       photo : this.imgurl
-    }
-    this.http.post(`http://localhost:8080/song/add`,obj).subscribe(res => console.log('Done'));
-    //this.http.get("http://localhost:8080/checkCatagory?cname="+cname).subscribe((data) => this.checkCatagory(data,cname));
+    }*/
+    const obj = {
+      name : target.querySelector('#sname').value,
+      filmname :target.querySelector('#fname').value,
+      catagory:this.rename,
+      releasedate:target.querySelector('#redate').value,
+      artists:target.querySelector('#artist').value
+    } 
+    this.http.post(`http://localhost:8080/song/add`,obj).subscribe(res => alert("Successfully Added new song!!!"));
   }
+
+  
+  selectChangeHandler (event: any) {
+    var t=event.target.value;
+    if(t!="-select-")
+      this.rename=t;
+    else
+      this.rename="";
+  }
+
   loadSongs(data)
   {
     var x;
@@ -92,6 +109,16 @@ export class ManageSongsComponent implements OnInit {
 
   removeSong(value)
   {
-    console.log(value)
+    this.http.get("http://localhost:8080/removeSong?sname="+value).subscribe((data) => alert("Successfully removed song '"+value+"'"));
+  }
+
+  playSong(value)
+  {
+      console.log("Play==== "+value);
+  }
+
+  editSong(value)
+  {
+      console.log("Edit==== "+value);
   }
 }

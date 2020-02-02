@@ -48,6 +48,7 @@ app.get('/adminlogin',(req,res)=>{
                 res.json(result);
     });
 });
+
 app.post('/song/add',(req,res) =>{
   let data =req.body;
   db.collection('songs').insertOne(data,function(err, result){ 
@@ -65,6 +66,21 @@ app.get('/checkCatagory',(req,res)=>{
       } 
       
       db.collection('Catagories').find(data).toArray(function(err, result){ 
+          
+        if (err) throw err;
+                res.json(result);
+    });			
+  });
+
+  app.get('/checkPlaylist',(req,res)=>{
+    var url_parts = geturl.parse(req.url, true);
+    var query = url_parts.query;
+    var cname=query.cname;
+    var data = { 
+        "name": cname
+      } 
+      
+      db.collection('playlists').find(data).toArray(function(err, result){ 
           
         if (err) throw err;
                 res.json(result);
@@ -129,8 +145,22 @@ app.get('/checkCatagory',(req,res)=>{
     var data = {  
         "name":name
       } 
-      console.log("deleted : "+data.name);
+      console.log("deleted playlist : "+data.name);
     db.collection('playlists').deleteOne(data,function(err, result){ 
+      if (err) throw err;
+      res.json(result.result);
+    });	  
+  });
+
+  app.get('/removeSong',(req,res)=>{
+    var url_parts = geturl.parse(req.url, true);
+    var query = url_parts.query;
+    var name=query.sname;
+    var data = {  
+        "name":name
+      } 
+      console.log("deleted song: "+data.name);
+    db.collection('songs').deleteOne(data,function(err, result){ 
       if (err) throw err;
       res.json(result.result);
     });	  
@@ -145,6 +175,20 @@ app.get('/addCatagory',(req,res)=>{
       } 
       
       db.collection('Catagories').insertOne(data,function(err, result){ 
+          if (err) throw err;  
+            res.json(result.result);
+      });			
+  });
+
+  app.get('/addPlaylist',(req,res)=>{
+    var url_parts = geturl.parse(req.url, true);
+    var query = url_parts.query;
+    var cname=query.cname;
+    var data = { 
+        "name": cname
+      } 
+      
+      db.collection('playlists').insertOne(data,function(err, result){ 
           if (err) throw err;  
             res.json(result.result);
       });			

@@ -30,7 +30,10 @@
       <div class="column" style="border-right: 1px solid;">
         <h2 style="text-align: center;">Add new Playlist</h2>
         <div style="padding-left: 100px;">
-            <br>
+          <br>
+          <b style="color: red;">{{succate}}</b>
+          <br><br>
+          
               <form class="form-inline" (submit)=addPlaylist($event)>
               <table>
                 <tr>
@@ -62,7 +65,7 @@
                 <tr>
                   <td></td>
                   <td>
-                    <img src="{{imgurl}}"  style="width: 150px;height: 150px;">
+                    <img src="{{imgurl}}" alt="(preview icon)" style="width: 150px;height: 150px;">
                   </td>
                 </tr>
                 <br/>
