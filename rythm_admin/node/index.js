@@ -2,6 +2,12 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
 const geturl=require('url')
+var fs = require('fs');
+
+var multer = require('multer');
+const fileUpload = require('express-fileupload');
+
+
 
 
 
@@ -26,11 +32,68 @@ app.use(bodyParser.urlencoded({
 
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4201');
+    //res.setHeader('Access-Control-Allow-Origin', ['*']);
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
     res.setHeader('Access-Control-Allow-Credentials', true);
     next();
 });
+
+const DIR = '../src/assets/';
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, DIR);
+  },
+  filename: (req, file, cb) => {
+    const fileName = file.originalname;  //.toLowerCase().split(' ').join('-');
+    cb(null, fileName)
+  }
+})
+
+
+var upload = multer({
+  storage: storage,
+//   limits: {
+//     fileSize: 1024 * 1024 * 5
+//   },
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype == "image/png" || file.mimetype == "audio/mpeg" || file.mimetype == "audio/mp3" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
+      cb(null, true);
+    } else {
+      cb(null, false);
+      return cb(new Error('Only .pm3, .png, .jpg and .jpeg format allowed!'));
+    }
+  }
+})
+
+
+app.post('/song/addaudio',upload.single('Song'),function(req,res){
+  //console.log(req.file.photo.name);
+  //console.log(req.body);
+  var newItem = new Item(req.body);
+  //console.log(newItem);
+  //newItem.img.data = fs.readFileSync(req.files.userPhoto.path)
+  // newItem.name=req.files.userPhoto.name;
+  // newItem.img.name=req.files.userPhoto.name;
+  // newItem.img.data=req.files.userPhoto.data;
+  // newItem.img.contentType = 'image/png';
+  
+  newItem.save(function(err) {
+  if (err) {
+    res.status(400);
+    res.send("Unable to add car");
+  }
+  else {
+  
+    res.status(200);
+    console.log("Song added!");
+    console.log(newItem);
+    res.json({ "message": "Song record saved successfully"});
+  }
+  });
+  //res.send("ok");
+  });
+
 
 app.get('/adminlogin',(req,res)=>{
   var url_parts = geturl.parse(req.url, true);
@@ -103,6 +166,22 @@ app.get('/checkCatagory',(req,res)=>{
       });
   });
   })
+
+  app.post('/api/upload',upload.single('Song'), function (req, res) {
+		console.log("calling uploader");
+		if (!req.file) {
+			console.log("No file received");
+			return res.send({
+			  success: false
+			});
+		
+		  } else {
+			console.log('file received successfully');
+			return res.send({
+			  success: true
+			})
+		  }
+	  });
 
   app.get('/loadCata',(req,res)=>{
     MongoClient.connect(url,{

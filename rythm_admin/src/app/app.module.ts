@@ -16,7 +16,7 @@ import {FooterAdminComponent} from './footer-admin/footer-admin.component';
 import { FormsModule } from '@angular/forms';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
-
+import { FileSelectDirective } from 'ng2-file-upload';
 
 
 const appRoutes: Routes = [
@@ -52,7 +52,8 @@ const appRoutes: Routes = [
     HeaderAdminComponent,
     ManagePlaylistsComponent,
     ManageSongsComponent,
-    FooterAdminComponent
+    FooterAdminComponent,
+    FileSelectDirective
     ],
   imports: [
     BrowserModule,
@@ -62,7 +63,8 @@ const appRoutes: Routes = [
     HttpClientModule,  
     FormsModule, 
     Ng2SearchPipeModule,
-    NgbModule
+    NgbModule,
+    
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]
