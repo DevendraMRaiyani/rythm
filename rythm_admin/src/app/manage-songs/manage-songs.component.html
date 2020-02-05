@@ -34,13 +34,13 @@
         <h2 style="text-align: center;">Add new Song</h2>
         <div style="padding-left: 100px;">
             <br>
-            <form class="form-inline" (submit)=addSong($event)>
+            <form class="form-inline" >
                 
               <table>
                 <tr> 
                   <td>Choose Song File:</td>
                   <td>
-                    <input type="file" (change)="handleFileInput($event.target.files)" name="sfile"/><br/>
+                    <input type="file" name="Song" class="form-control-file" id="SongAudio" ng2FileSelect [uploader]="uploader" (change)="onFileChange($event)"/><br/>
                     <span style="color: red;font-size: 12px;">(Note: only .mp3 are allowed)</span>
                   </td>
                   <!-- <input  type="file" name="sfile" id="sfile" accept="image/*" required/> -->
@@ -96,7 +96,7 @@
                 <tr>
                   <td></td>
                   <td>
-                    <input class="btn btn-primary"  type="submit" value="Add Song"/>
+                    <input class="btn btn-primary"  type="submit" (click)="uploader.uploadAll()"  [disabled]="!uploader.getNotUploadedItems().length" (click)="addSong()" value="Add Song"/>
                   </td>
                 </tr>
               </table>
