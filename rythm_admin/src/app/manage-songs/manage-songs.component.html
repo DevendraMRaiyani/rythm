@@ -19,9 +19,17 @@
     }
     .songcontainer {
       width: 80%;
-      height: 450px;
+      height: 500px;
       margin-left: 50px;
       margin-top: 10px;
+      border: 1px solid gray;
+      overflow: auto;
+    }
+    .plcontainer {
+      width: 80%;
+      height: 200px;
+      margin-left: 5px;
+      margin-bottom: 20px;
       border: 1px solid gray;
       overflow: auto;
     }
@@ -40,7 +48,7 @@
                 <tr> 
                   <td>Choose Song File:</td>
                   <td>
-                    <input type="file" name="Song" class="form-control-file" id="SongAudio" ng2FileSelect [uploader]="uploader" (change)="onFileChange($event)"/><br/>
+                    <input type="file" name="Song" class="form-control-file" id="SongAudio" ng2FileSelect [uploader]="uploader" (change)="onFileChange($event)" accept=".mp3"/>
                     <span style="color: red;font-size: 12px;">(Note: only .mp3 are allowed)</span>
                   </td>
                   <!-- <input  type="file" name="sfile" id="sfile" accept="image/*" required/> -->
@@ -49,28 +57,28 @@
                 <tr>
                   <td>Song Name:</td>
                   <td>
-                    <input class="form-control" type="text" name="sname" id="sname" placeholder="Enter New Song Name" required/>
+                    <input class="form-control" type="text" name="sname" id="sname" placeholder="Enter New Song Name" [(ngModel)]="sname" required/>
                   </td>
                 </tr>
                 <br/>
                 <tr>
                   <td>Film Name:</td>
                   <td>
-                    <input class="form-control" type="text" name="fname" id="fname" placeholder="Enter Film Name (Optional)"/>
+                    <input class="form-control" type="text" name="fname" id="fname" placeholder="Enter Film Name (Optional)" [(ngModel)]="fname"/>
                   </td>
                 </tr>
                 <br/>
                 <tr>
                   <td>Release Date:</td>
                   <td>
-                    <input class="form-control" type="date" name="redate" id="redate" placeholder="Enter Release Date of Song" required/>
+                    <input class="form-control" type="date" name="redate" id="redate" placeholder="Enter Release Date of Song" [(ngModel)]="redate" required/>
                   </td>
                 </tr>
                 <br/>
                 <tr>
                   <td>Artist Name:</td>
                   <td>
-                    <input class="form-control" type="text" name="artist" id="artist" placeholder="Enter Name of Artist" required/>
+                    <input class="form-control" type="text" name="artist" id="artist" [(ngModel)]="artist" placeholder="Enter Name of Artist" required/>
                   </td>
                 </tr>
                 <br/>
@@ -87,8 +95,10 @@
                 <tr>
                   <td>Select Playlist(s) for Song: </td>
                   <td rowspan="2">
-                    <div style="display: inline;" *ngFor="let i of playlists">
-                    <input class="form-control" type="checkbox" name="{{i.name}}" value="{{i.name}}">{{i.name}}<br/>
+                    <div class="plcontainer">
+                      <div style="display: inline;margin-left: 15px;" *ngFor="let i of playlists">
+                      <input class="form-control" type="checkbox" name="{{i.name}}" value="{{i.name}}">{{i.name}}<br/>
+                      </div>
                     </div>
                   </td>
                 </tr>
@@ -96,7 +106,7 @@
                 <tr>
                   <td></td>
                   <td>
-                    <input class="btn btn-primary"  type="submit" (click)="uploader.uploadAll()"  [disabled]="!uploader.getNotUploadedItems().length" (click)="addSong()" value="Add Song"/>
+                    <input class="btn btn-primary"  type="submit" (click)="uploader.uploadAll()"  [disabled]="!uploader.getNotUploadedItems().length" (click)="addSong({'name':sname,'filmname':fname,'releasedate':redate,'artists':artist})" value="Add Song"/>
                   </td>
                 </tr>
               </table>

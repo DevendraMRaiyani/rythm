@@ -39,7 +39,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-const DIR = '../src/assets/';
+const DIR = '../../rythm/src/assets/songs/';
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, DIR);
@@ -114,6 +114,7 @@ app.get('/adminlogin',(req,res)=>{
 
 app.post('/song/add',(req,res) =>{
   let data =req.body;
+  console.log()
   db.collection('songs').insertOne(data,function(err, result){ 
     if (err) throw err;  
       res.json(result.result);
