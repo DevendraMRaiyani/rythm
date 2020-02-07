@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import {  FileUploader, FileSelectDirective } from 'ng2-file-upload';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {  FileUploader} from 'ng2-file-upload';
 import { map } from 'rxjs/operators';
 const UploadURL = 'http://localhost:8080/api/upload';
 @Component({
@@ -20,21 +19,10 @@ export class ManageSongsComponent implements OnInit {
   fileToUpload:File=null;
   songs;
   rename=""
+  sname
   filestatus:number;
   public isCollapsed = true;
   audioname:String;
-  // heroes = [
-  //   { id: 11, name: 'Mr. Nice', country: 'India' },
-  //   { id: 12, name: 'Narco' , country: 'USA'},
-  //   { id: 13, name: 'Bombasto' , country: 'UK'},
-  //   { id: 14, name: 'Celeritas' , country: 'Canada' },
-  //   { id: 15, name: 'Magneta' , country: 'Russia'},
-  //   { id: 16, name: 'RubberMan' , country: 'China'},
-  //   { id: 17, name: 'Dynama' , country: 'Germany'},
-  //   { id: 18, name: 'Dr IQ' , country: 'Hong Kong'},
-  //   { id: 19, name: 'Magma' , country: 'South Africa'},
-  //   { id: 20, name: 'Tornado' , country: 'Sri Lanka'}
-  // ];
   constructor(private http:Http,private router:Router,private cookie:CookieService) { }
 
   ngOnInit() {
@@ -50,69 +38,35 @@ export class ManageSongsComponent implements OnInit {
        console.log('FileUpload:uploaded:', item, status, response);
        this.filestatus=status;
        console.log("file status",this.filestatus)
-      // alert('File uploaded successfully');
-       //this.router.navigate[''];
    };
   }
-
-
-  
-   
-
-  // handleFileInput(file:FileList){
-  //   this.fileToUpload = file.item(0)
-  //   var reader = new FileReader()
-  //   reader.onload = (event: any) => {
-  //     this.imgurl = event.target.result;
-  //     console.log(this.imgurl)
-  //   }
-  //   reader.readAsDataURL(this.fileToUpload);
-
-  // }
   onFileChange(event){
     const file = (event.target as HTMLInputElement).files[0];
     this.audioname=file.name;
-    // this.uploadForm.patchValue({
-    //   photo: file
-    // });
-    // this.uploadForm.get('photo').updateValueAndValidity();
-    // console.log(this.uploadForm.get('photo'))
+    this.sname=file.name;
+    this.sname=this.sname.slice(0,-4);
   }
-  addSong()
-  {
-    console.log("asdsadjkshdjhsdjhsahdjhsajdhjs")
-    //event.preventDefault()
-    //const target = event.target;
-    //const cname = target.querySelector('#sname').value;
-    /*const obj = {
-      name : target.querySelector('#sname').value,
-      photo : this.imgurl
-    }*/
-    // const obj = {
-    //   name : target.querySelector('#sname').value,
-    //   filmname :target.querySelector('#fname').value,
-    //   catagory:this.rename,
-    //   releasedate:target.querySelector('#redate').value,
-    //   artists:target.querySelector('#artist').value
-    // } 
-    const fobj={
-      name:this.audioname
-    }
-    //this.http.post(`http://localhost:8080/song/add`,obj).subscribe(res => alert("Successfully Added new song!!!"));
-    //this.http.post(`http://localhost:8080/song/add`,fobj).subscribe(res => res);
-    this.http.post("http://localhost:8000/song/addaudio",fobj).pipe(map(res => res));
-    console.log("file status",this.filestatus);
-  }
-
-  
   selectChangeHandler (event: any) {
     var t=event.target.value;
     if(t!="-select-")
       this.rename=t;
     else
       this.rename="";
-  }
 
+  }
+  addSong(obj:any)
+  {
+    console.log("asdsadjkshdjhsdjhsahdjhsajdhjs")
+    obj.catagory=this.rename;
+    obj.link=this.audioname;
+    const fobj={
+      name:this.audioname
+    }
+    this.http.post("http://localhost:8080/song/addaudio",fobj).pipe(map(res => res));
+    this.http.post(`http://localhost:8080/song/add`,obj).subscribe(res => alert("Successfully Added new song!!!"));
+    location.reload();
+    
+  }
   loadSongs(data)
   {
     var x;
