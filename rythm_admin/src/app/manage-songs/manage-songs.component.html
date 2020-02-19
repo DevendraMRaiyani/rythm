@@ -134,6 +134,9 @@
                     <i (click)=editSong(td1.innerHTML) class="fa fa-edit" title="Update Song"></i>
                   </td>
                   <td class="col-md-2">
+                    <i class="fa fa-info-circle" (click)="open()"></i>
+                  </td>
+                  <td class="col-md-2">
                     <a href="/managesongs" style="text-decoration: none;"><i (click)=removeSong(td1.innerHTML) class="fa fa-trash-o" style="color: red;" title="Delete Song"></i></a>
                   </td>
                 </tr>
