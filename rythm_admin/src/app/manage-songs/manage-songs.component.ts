@@ -1,16 +1,53 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import {  FileUploader} from 'ng2-file-upload';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { map } from 'rxjs/operators';
 const UploadURL = 'http://localhost:8080/api/upload';
+
+
+@Component({
+  selector: 'ngbd-modal-content',
+  template: `
+    <div class="modal-header">
+      <h4 class="modal-title">Songs Details!</h4>
+      <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>Song, {{name}}!</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+    </div>
+  `
+})
+export class NgbdModalContent {
+  @Input() name;
+
+  constructor(public activeModal: NgbActiveModal) {}
+}
+
 @Component({
   selector: 'app-manage-songs',
   templateUrl: './manage-songs.component.html',
   styleUrls: ['./manage-songs.component.css']
 })
+
 export class ManageSongsComponent implements OnInit {
+
+  constructor(private http:Http,private router:Router,private cookie:CookieService,private modalService: NgbModal) { }
+
+
+
+  open() {
+    const modalRef = this.modalService.open(NgbdModalContent);
+    modalRef.componentInstance.name = 'Name';
+  }
+
   public uploader: FileUploader = new FileUploader({url: UploadURL, itemAlias: 'Song'});
   catagories
   playlists
@@ -23,7 +60,7 @@ export class ManageSongsComponent implements OnInit {
   filestatus:number;
   public isCollapsed = true;
   audioname:String;
-  constructor(private http:Http,private router:Router,private cookie:CookieService) { }
+  
 
   ngOnInit() {
     if(!(this.cookie.check("Adminuname") && this.cookie.check("Adminuid")))
