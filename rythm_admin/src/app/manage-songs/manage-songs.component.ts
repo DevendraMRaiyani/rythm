@@ -43,9 +43,9 @@ export class ManageSongsComponent implements OnInit {
 
 
 
-  open() {
+  open(value) {
     const modalRef = this.modalService.open(NgbdModalContent);
-    modalRef.componentInstance.name = 'Name';
+    modalRef.componentInstance.name = value;
   }
 
   public uploader: FileUploader = new FileUploader({url: UploadURL, itemAlias: 'Song'});
