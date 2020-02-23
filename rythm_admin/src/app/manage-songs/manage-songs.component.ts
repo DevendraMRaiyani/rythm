@@ -57,6 +57,7 @@ export class ManageSongsComponent implements OnInit {
   songs;
   rename=""
   sname
+  songId
   filestatus:number;
   public isCollapsed = true;
   audioname:String;
@@ -99,10 +100,20 @@ export class ManageSongsComponent implements OnInit {
     const fobj={
       name:this.audioname
     }
+    console.log(obj.name)
     this.http.post("http://localhost:8080/song/addaudio",fobj).pipe(map(res => res));
-    this.http.post(`http://localhost:8080/song/add`,obj).subscribe(res => alert("Successfully Added new song!!!"));
-    location.reload();
+    this.http.post(`http://localhost:8080/song/add`,obj).subscribe((data) => this.displayAddSong(data));
+    //location.reload();
     
+  }
+  displayAddSong(data)
+  {
+    var x;
+    x=data;
+    var y = Array.of(x._body);
+    var arr=JSON.parse(<any>y);
+    this.songId=arr[0]._id
+    //alert("Successfully added new Song!!!")
   }
   loadSongs(data)
   {
