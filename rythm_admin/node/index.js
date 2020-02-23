@@ -214,7 +214,7 @@ app.get('/checkCatagory',(req,res)=>{
       //Find the first document in the customers collection:
       dbo.collection("playlists").find({}).toArray( function(err, result) {
         if (err) throw err;
-        //console.log("catagories ok");
+        //console.log(result);
         res.json(result);
         db.close();
       });
@@ -281,7 +281,36 @@ app.get('/addCatagory',(req,res)=>{
         
     });	
     res.json("{n:1,ok:1}");
-});
+  });
+
+  app.post('/songAddToPls',(req,res)=>{
+    let obj =req.body;
+    var sid=obj.sid;
+    var plarr=obj.plarr;
+    var r="";
+    db.collection("playlists").find({}).toArray( function(err, result) {
+      if (err) throw err;
+      var pls=result;
+      for(var i of plarr)
+      {
+          for(var j of pls)
+          {
+            if(j.name==i)
+            {
+              j.songs.push(sid)
+              var myquery = { "name": j.name };
+              var newvalues = { $set: j };
+              db.collection("playlists").updateOne(myquery, newvalues, function(err, res) {
+              if (err) throw err;
+                
+              });
+              break;
+            }
+          }
+      }
+      res.json(result);
+    });
+  });
 
   app.get('/renameCatagory',(req,res)=>{
       var url_parts = geturl.parse(req.url, true);
