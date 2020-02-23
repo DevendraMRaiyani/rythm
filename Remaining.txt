@@ -4,5 +4,5 @@
 //4. playlist icon display in Update playlist and change it functionality
 //5. Remove files after delete song or playlist
 6. Neccessory constrains in playlist mgnt
-//7.Select Playlist in Add Song
+//7. While deleting song delete song id from playlists
 //8.Popup song Update in Update Playlist

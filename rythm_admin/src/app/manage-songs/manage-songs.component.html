@@ -96,8 +96,8 @@
                   <td>Select Playlist(s) for Song: </td>
                   <td rowspan="2">
                     <div class="plcontainer">
-                      <div style="display: inline;margin-left: 15px;" *ngFor="let i of playlists">
-                      <input class="form-control" type="checkbox" name="{{i.name}}" value="{{i.name}}">{{i.name}}<br/>
+                      <div style="display: inline;margin-left: 15px;" (click)="PlSelec(in1.value)" *ngFor="let i of playlists">
+                      <input #in1 class="form-control"  type="checkbox" name="{{i.name}}" value="{{i.name}}">{{i.name}}<br/>
                       </div>
                     </div>
                   </td>

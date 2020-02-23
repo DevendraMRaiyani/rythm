@@ -52,6 +52,7 @@ export class ManageSongsComponent implements OnInit {
   catagories
   playlists
   searchText;
+  selectedPls=[]
   imgurl:String= null;
   fileToUpload:File=null;
   songs;
@@ -72,10 +73,10 @@ export class ManageSongsComponent implements OnInit {
       this.http.get("http://localhost:8080/loadSongs").subscribe((data) => this.loadSongs(data));
     }
     this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
-  this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-       console.log('FileUpload:uploaded:', item, status, response);
+    this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+       //console.log('FileUpload:uploaded:', item, status, response);
        this.filestatus=status;
-       console.log("file status",this.filestatus)
+       //console.log("file status",this.filestatus)
    };
   }
   onFileChange(event){
@@ -94,16 +95,16 @@ export class ManageSongsComponent implements OnInit {
   }
   addSong(obj:any)
   {
-    console.log("asdsadjkshdjhsdjhsahdjhsajdhjs")
+    //console.log("asdsadjkshdjhsdjhsahdjhsajdhjs")
     obj.catagory=this.rename;
     obj.link=this.audioname;
     const fobj={
       name:this.audioname
     }
-    console.log(obj.name)
+    //console.log(obj.name)
     this.http.post("http://localhost:8080/song/addaudio",fobj).pipe(map(res => res));
     this.http.post(`http://localhost:8080/song/add`,obj).subscribe((data) => this.displayAddSong(data));
-    //location.reload();
+    location.reload();
     
   }
   displayAddSong(data)
@@ -114,6 +115,21 @@ export class ManageSongsComponent implements OnInit {
     var arr=JSON.parse(<any>y);
     this.songId=arr[0]._id
     //alert("Successfully added new Song!!!")
+    const obj=
+    {
+      sid:this.songId,
+      plarr:this.selectedPls
+    }
+    this.http.post(`http://localhost:8080/songAddToPls`,obj).subscribe((data) => this.addSongFinal(data));
+  }
+  addSongFinal(data)
+  {
+    if(data.ok)
+      alert("Successfully added new Song!!!")
+  }
+  PlSelec(value)
+  {
+    this.selectedPls.push(value)
   }
   loadSongs(data)
   {

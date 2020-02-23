@@ -85,6 +85,8 @@ export class ManagePlaylistsComponent implements OnInit {
     }
   }
   selectChangeHandler (event: any) {
+    this.plSongsId=[]
+    this.plSongs=[]
     var t=event.target.value;
     if(t!="-select-")
     {
