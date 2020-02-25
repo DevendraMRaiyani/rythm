@@ -18,7 +18,24 @@ const UploadURL = 'http://localhost:8080/api/upload';
       </button>
     </div>
     <div class="modal-body">
-      <p>Song, {{name}}!</p>
+      <table>
+        <tr>
+          <td>Song Name</td>
+          <td><input class="form-control" value="{{name}}"/></td>
+        </tr>
+        <tr>
+          <td>Film Name</td>
+          <td><input class="form-control" value="{{filmname}}"/></td>
+        </tr>
+        <tr>
+          <td>Release Date</td>
+          <td><input class="form-control" value="{{releasedate}}"/></td>
+        </tr>
+        <tr>
+          <td>Artist Name</td>
+          <td><input class="form-control" value="{{artist}}"/></td>
+        </tr>
+      </table> 
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
@@ -27,6 +44,9 @@ const UploadURL = 'http://localhost:8080/api/upload';
 })
 export class NgbdModalContent {
   @Input() name;
+  @Input() filmname;
+  @Input() releasedate;
+  @Input() artist;
 
   constructor(public activeModal: NgbActiveModal) {}
 }
@@ -43,9 +63,12 @@ export class ManageSongsComponent implements OnInit {
 
 
 
-  open(value) {
+  open(value,value1,value2,value3) {
     const modalRef = this.modalService.open(NgbdModalContent);
     modalRef.componentInstance.name = value;
+    modalRef.componentInstance.filmname = value1;
+    modalRef.componentInstance.releasedate = value2;
+    modalRef.componentInstance.artist = value3;
   }
 
   public uploader: FileUploader = new FileUploader({url: UploadURL, itemAlias: 'Song'});
