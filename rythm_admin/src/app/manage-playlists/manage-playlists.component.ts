@@ -12,6 +12,7 @@ export class ManagePlaylistsComponent implements OnInit {
   playlists
   rename
   selectedsongs=[]
+  selectedpl
   selectedIds=[]
   plSongsId=[]
   plSongs=[]
@@ -74,7 +75,25 @@ export class ManagePlaylistsComponent implements OnInit {
   }
   AddSong(value)
   {
-    this.selectedsongs.unshift(value);
+    var f=0;
+    if(this.selectedsongs.length==0)
+    {
+      f=1;
+    }
+    for(var i of this.selectedsongs)
+    {
+      if(i==value)
+      {  
+        f=0;
+        break;
+      }
+      else
+        f=1;
+    }
+    if(f==1){
+      f=1;
+      this.selectedsongs.unshift(value);
+    }
     //console.log(this.selectedsongs);
   }
   RemoveSong(value)
@@ -91,6 +110,7 @@ export class ManagePlaylistsComponent implements OnInit {
     if(t!="-select-")
     {
       this.rename=t;
+      this.selectedpl=t;
       for(var i of this.playlists)
       {
         if(i.name==t)
@@ -121,12 +141,8 @@ export class ManagePlaylistsComponent implements OnInit {
   {
     event.preventDefault()
     const target = event.target;
-    const cname = target.querySelector('#rename').value;
-    //console.log(cname)
-    this.http.get("http://localhost:8080/checkPlaylist?cname="+cname).subscribe((data) => this.checkPlaylistUP(data,cname));
-  }
-  checkPlaylistUP(data,cname)
-  {
+    const cname = target.querySelector('#rename').value.trim();
+
     this.plSongsId=[]
     for(var i of this.plSongs)
     {
@@ -136,6 +152,25 @@ export class ManagePlaylistsComponent implements OnInit {
             this.plSongsId.push(j._id)
         }
     }
+
+    if(cname!=this.selectedpl)
+      this.http.get("http://localhost:8080/checkPlaylist?cname="+cname).subscribe((data) => this.checkPlaylistUP(data,cname));
+    else
+    {
+      const obj={
+        name:cname,
+        songs:this.plSongsId
+      }
+      const mainobj={
+        plobj:obj,
+        oldnm:this.rename
+      }
+      this.http.post(`http://localhost:8080/updatePlaylist`,mainobj).subscribe((data) => this.displayDataUP(data));
+    }
+
+  }
+  checkPlaylistUP(data,cname)
+  {
     //console.log("Updating: "+this.plSongsId);
     var x;
     x=data;
@@ -170,7 +205,7 @@ export class ManagePlaylistsComponent implements OnInit {
   {
     event.preventDefault()
     const target = event.target;
-    const cname = target.querySelector('#plname').value;
+    const cname = target.querySelector('#plname').value.trim();
     this.http.get("http://localhost:8080/checkPlaylist?cname="+cname).subscribe((data) => this.checkPlaylist(data,cname));
   }
   checkPlaylist(data,cname)

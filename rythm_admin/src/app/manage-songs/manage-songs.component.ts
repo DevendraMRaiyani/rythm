@@ -12,7 +12,7 @@ const UploadURL = 'http://localhost:8080/api/upload';
   selector: 'ngbd-modal-content',
   template: `
     <div class="modal-header">
-      <h4 class="modal-title">Songs Details!</h4>
+      <h4 class="modal-title">Songs Details</h4>
       <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -21,24 +21,24 @@ const UploadURL = 'http://localhost:8080/api/upload';
       <table>
         <tr>
           <td>Song Name</td>
-          <td><input class="form-control" value="{{name}}"/></td>
+          <td><input type="text" class="form-control" value="{{name}}"/></td>
         </tr>
         <tr>
           <td>Film Name</td>
-          <td><input class="form-control" value="{{filmname}}"/></td>
+          <td><input type="text" class="form-control" value="{{filmname}}"/></td>
         </tr>
         <tr>
           <td>Release Date</td>
-          <td><input class="form-control" value="{{releasedate}}"/></td>
+          <td><input  type="text" class="form-control" value="{{releasedate}}"/></td>
         </tr>
         <tr>
           <td>Artist Name</td>
-          <td><input class="form-control" value="{{artist}}"/></td>
+          <td><input  type="text" class="form-control" value="{{artist}}"/></td>
         </tr>
       </table> 
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+      <button type="button" class="btn btn-primary" (click)="activeModal.close('Close click')">Update Changes</button>
     </div>
   `
 })
@@ -119,6 +119,8 @@ export class ManageSongsComponent implements OnInit {
   addSong(obj:any)
   {
     //console.log("asdsadjkshdjhsdjhsahdjhsajdhjs")
+    obj.name=obj.name.trim();
+    obj.filmname=obj.filmname.trim();
     obj.catagory=this.rename;
     obj.link=this.audioname;
     const fobj={
@@ -127,7 +129,7 @@ export class ManageSongsComponent implements OnInit {
     //console.log(obj.name)
     this.http.post("http://localhost:8080/song/addaudio",fobj).pipe(map(res => res));
     this.http.post(`http://localhost:8080/song/add`,obj).subscribe((data) => this.displayAddSong(data));
-    location.reload();
+    
     
   }
   displayAddSong(data)
@@ -149,6 +151,7 @@ export class ManageSongsComponent implements OnInit {
   {
     if(data.ok)
       alert("Successfully added new Song!!!")
+      location.reload();
   }
   PlSelec(value)
   {
