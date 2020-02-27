@@ -154,6 +154,21 @@ app.get('/checkCatagory',(req,res)=>{
     });			
   });
 
+  app.get('/checkSong',(req,res)=>{
+    var url_parts = geturl.parse(req.url, true);
+    var query = url_parts.query;
+    var cname=query.cname;
+    var data = { 
+        "name": cname
+      } 
+      
+      db.collection('songs').find(data).toArray(function(err, result){ 
+          
+        if (err) throw err;
+                res.json(result);
+    });			
+  });
+
   app.get('/loadSongs',(req,res)=>{
     MongoClient.connect(url,{
       useNewUrlParser: true,
@@ -270,6 +285,17 @@ app.get('/addCatagory',(req,res)=>{
         res.json(result.result);
     });
       		
+  });
+
+  app.post('/updateSongs',(req,res)=>{
+    let mainobj =req.body;
+    var myquery = { "name": mainobj.oldnm };
+    var newvalues = { $set: mainobj.plobj };
+    db.collection("songs").updateOne(myquery, newvalues, function(err, res) {
+      if (err) throw err;
+        
+    });	
+    res.json("{n:1,ok:1}");
   });
 
   app.post('/updatePlaylist',(req,res)=>{
