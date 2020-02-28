@@ -17,38 +17,98 @@ const UploadURL = 'http://localhost:8080/api/upload';
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <div class="modal-body">
-      <table>
-        <tr>
-          <td>Song Name</td>
-          <td><input type="text" class="form-control" value="{{name}}"/></td>
-        </tr>
-        <tr>
-          <td>Film Name</td>
-          <td><input type="text" class="form-control" value="{{filmname}}"/></td>
-        </tr>
-        <tr>
-          <td>Release Date</td>
-          <td><input  type="text" class="form-control" value="{{releasedate}}"/></td>
-        </tr>
-        <tr>
-          <td>Artist Name</td>
-          <td><input  type="text" class="form-control" value="{{artist}}"/></td>
-        </tr>
-      </table> 
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-primary" (click)="activeModal.close('Close click')">Update Changes</button>
-    </div>
+    <form (submit)=onEdit($event)>
+      <div class="modal-body">
+        <table>
+          <tr>
+            <td>Song Name</td>
+            <td><input type="text" id="rename" name="rename" class="form-control" value="{{name}}"/></td>
+          </tr>
+          <tr>
+            <td>Film Name</td>
+            <td><input type="text" id="refilname" class="form-control" value="{{filmname}}"/></td>
+          </tr>
+          <tr>
+            <td>Release Date</td>
+            <td><input  type="text" id="releasedate" class="form-control" value="{{releasedate}}"/></td>
+          </tr>
+          <tr>
+            <td>Artist Name</td>
+            <td><input  type="text" id="reartists" class="form-control" value="{{artist}}"/></td>
+          </tr>
+        </table> 
+      </div>
+      <div class="modal-footer">
+        
+        <input type="submit" class="btn btn-primary" value="Update Changes"/>
+      </div>
+    </form>
   `
 })
 export class NgbdModalContent {
-  @Input() name;
-  @Input() filmname;
-  @Input() releasedate;
-  @Input() artist;
-
-  constructor(public activeModal: NgbActiveModal) {}
+  name;
+  filmname;
+  releasedate;
+  artist
+  refilmname;
+  rereleasedate;
+  reartist
+  
+  songs;
+  playlists
+  plSongsId
+  plSongs
+  rename
+  selectedpl
+  succate
+  constructor(public activeModal: NgbActiveModal,private http:Http,private router:Router,private cookie:CookieService) {}
+  ngOnInit() {
+    if(!(this.cookie.check("Adminuname") && this.cookie.check("Adminuid")))
+      this.router.navigate([''])
+    else{
+      // this.http.get("http://localhost:8080/loadPlaylists").subscribe((data) => this.loadPlaylist(data));
+      this.http.get("http://localhost:8080/loadSongs").subscribe((data) => this.loadSongs(data));
+    }
+  }
+  
+  loadSongs(data)
+  {
+    var x;
+    x=data;
+    var y = Array.of(x._body);
+    var arr=JSON.parse(<any>y);
+    this.songs=arr;
+  }
+  onEdit(event)
+  {
+    event.preventDefault()
+    const target = event.target;
+    const cname = target.querySelector('#rename').value.trim();
+    const obj={
+        name:cname,
+        filmname : target.querySelector('#refilname').value.trim(),
+        artists : target.querySelector('#reartists').value.trim(),
+        releasedate : target.querySelector('#releasedate').value.trim()
+      }
+    const mainobj={
+        plobj:obj,
+        oldnm:this.rename
+      }
+      console.log(obj)
+    this.http.post(`http://localhost:8080/updateSongs`,mainobj).subscribe((data) => this.displayDataUP(data));
+  }
+  displayDataUP(data){
+    var x;
+    x=data;
+    var y = Array.of(x._body);
+    var arr=JSON.parse(<any>y);
+    if(arr.length==0)
+      alert("Some Problem Occured!! Please Try Leter!!!");
+    else{
+      alert("Successfully updated Song");
+      location.reload();
+    }
+  }
 }
 
 @Component({
@@ -69,6 +129,10 @@ export class ManageSongsComponent implements OnInit {
     modalRef.componentInstance.filmname = value1;
     modalRef.componentInstance.releasedate = value2;
     modalRef.componentInstance.artist = value3;
+    modalRef.componentInstance.refilmname = value1;
+    modalRef.componentInstance.rereleasedate = value2;
+    modalRef.componentInstance.reartist = value3;
+    modalRef.componentInstance.rename = value;
   }
 
   public uploader: FileUploader = new FileUploader({url: UploadURL, itemAlias: 'Song'});
@@ -102,6 +166,7 @@ export class ManageSongsComponent implements OnInit {
        //console.log("file status",this.filestatus)
    };
   }
+  
   onFileChange(event){
     const file = (event.target as HTMLInputElement).files[0];
     this.audioname=file.name;

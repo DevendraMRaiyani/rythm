@@ -121,7 +121,7 @@ export class ManagePlaylistsComponent implements OnInit {
     }
     else
       this.rename="";
-
+    
     //console.log("Ids: "+this.plSongsId)
     
     for(var i of this.plSongsId)
