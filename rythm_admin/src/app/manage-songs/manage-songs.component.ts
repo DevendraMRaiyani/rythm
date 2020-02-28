@@ -129,10 +129,11 @@ export class ManageSongsComponent implements OnInit {
     modalRef.componentInstance.filmname = value1;
     modalRef.componentInstance.releasedate = value2;
     modalRef.componentInstance.artist = value3;
-    modalRef.componentInstance.refilmname = value1;
-    modalRef.componentInstance.rereleasedate = value2;
-    modalRef.componentInstance.reartist = value3;
-    modalRef.componentInstance.rename = value;
+
+    modalRef.componentInstance.refilmname = value1.trim();
+    modalRef.componentInstance.rereleasedate = value2.trim();
+    modalRef.componentInstance.reartist = value3.trim();
+    modalRef.componentInstance.rename = value.trim();
   }
 
   public uploader: FileUploader = new FileUploader({url: UploadURL, itemAlias: 'Song'});
