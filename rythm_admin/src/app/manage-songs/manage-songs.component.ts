@@ -155,7 +155,10 @@ export class ManageSongsComponent implements OnInit {
   filestatus:number;
   public isCollapsed = true;
   audioname:String;
-  
+  public popoverTitle:string="Delete Song?";
+  public popoverMessage:string="Are you sure want to delete this song?";
+  public confirmClicked:boolean=false;
+  public cancelClicked:boolean=false;
 
   ngOnInit() {
     if(!(this.cookie.check("Adminuname") && this.cookie.check("Adminuid")))
@@ -255,7 +258,13 @@ export class ManageSongsComponent implements OnInit {
 
   removeSong(value)
   {
-    this.http.get("http://localhost:8080/removeSong?sname="+value).subscribe((data) => alert("Successfully removed song '"+value+"'"));
+    this.http.get("http://localhost:8080/removeSong?sname="+value).subscribe((data) => this.deleteSongFinal(data));
+  }
+  deleteSongFinal(data)
+  {
+    if(data.ok)
+      alert("Successfully deleted Song!!!")
+      location.reload();
   }
 
   playSong(value)
