@@ -117,6 +117,11 @@ export class NgbdModalContent {
   styleUrls: ['./manage-songs.component.css']
 })
 
+//  -------------------------------------------
+//  -------------------------------------------
+//  -------------------------------------------
+//  -------------------------------------------
+//  -------------------------------------------
 export class ManageSongsComponent implements OnInit {
 
   constructor(private http:Http,private router:Router,private cookie:CookieService,private modalService: NgbModal) { }
@@ -165,7 +170,7 @@ export class ManageSongsComponent implements OnInit {
        //console.log('FileUpload:uploaded:', item, status, response);
        this.filestatus=status;
        //console.log("file status",this.filestatus)
-   };
+    };
   }
   
   onFileChange(event){

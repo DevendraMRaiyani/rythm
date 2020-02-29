@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import {  FileUploader} from 'ng2-file-upload';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { map } from 'rxjs/operators';
+const UploadURL = 'http://localhost:8080/api/upload';
 
 @Component({
   selector: 'app-manage-playlists',
@@ -17,10 +21,19 @@ export class ManagePlaylistsComponent implements OnInit {
   plSongsId=[]
   plSongs=[]
   succate
+  sname;
   songs
   imgurl:String= null;
   fileToUpload:File=null;
+  filestatus:number;
+  public isCollapsed = true;
+  audioname:String;
+
+  public uploader: FileUploader = new FileUploader({url: UploadURL, itemAlias: 'Song'});
+
   constructor(public http:Http,public router:Router,public cookie:CookieService) { }
+
+
   ngOnInit() {
     if(!(this.cookie.check("Adminuname") && this.cookie.check("Adminuid")))
       this.router.navigate([''])
@@ -29,7 +42,21 @@ export class ManagePlaylistsComponent implements OnInit {
       this.http.get("http://localhost:8080/loadPlaylists").subscribe((data) => this.loadPlaylist(data));
       this.http.get("http://localhost:8080/loadSongs").subscribe((data) => this.loadSongs(data));
     }
+    this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
+    this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+       //console.log('FileUpload:uploaded:', item, status, response);
+       this.filestatus=status;
+       //console.log("file status",this.filestatus)
+    };
   }
+
+  onFileChange(event){
+    const file = (event.target as HTMLInputElement).files[0];
+    this.audioname=file.name;
+    this.sname=file.name;
+    //this.sname=this.sname.slice(0,-4);
+  }
+
   loadPlaylist(data)
   {
     var x;
@@ -39,6 +66,8 @@ export class ManagePlaylistsComponent implements OnInit {
     this.playlists=arr;
     //console.log(arr);
   }
+
+
   loadSongs(data)
   {
     var x;
@@ -48,6 +77,8 @@ export class ManagePlaylistsComponent implements OnInit {
     this.songs=arr;
     //console.log(arr);
   }
+  
+  
   AddSongUP(value)
   {
     var f=0;
@@ -66,6 +97,8 @@ export class ManagePlaylistsComponent implements OnInit {
       this.plSongs.unshift(value);
     }
   }
+  
+  
   RemoveSongUP(value)
   {
     const index = this.plSongs.indexOf(value, 0);
@@ -73,6 +106,8 @@ export class ManagePlaylistsComponent implements OnInit {
       this.plSongs.splice(index, 1);
     }
   }
+  
+  
   AddSong(value)
   {
     var f=0;
@@ -96,6 +131,8 @@ export class ManagePlaylistsComponent implements OnInit {
     }
     //console.log(this.selectedsongs);
   }
+  
+  
   RemoveSong(value)
   {
     const index = this.selectedsongs.indexOf(value, 0);
@@ -103,6 +140,7 @@ export class ManagePlaylistsComponent implements OnInit {
       this.selectedsongs.splice(index, 1);
     }
   }
+  
   selectChangeHandler (event: any) {
     this.plSongsId=[]
     this.plSongs=[]
@@ -169,6 +207,8 @@ export class ManagePlaylistsComponent implements OnInit {
     }
 
   }
+  
+  
   checkPlaylistUP(data,cname)
   {
     //console.log("Updating: "+this.plSongsId);
@@ -191,6 +231,8 @@ export class ManagePlaylistsComponent implements OnInit {
       this.succate="Playlist '"+cname+"' exists!!! Please, try with differnt name"
       //alert("Catagory of '"+cname+"' exists!!! Please, try with differnt name");
   }
+  
+  
   handleFileInput(file:FileList){
     this.fileToUpload = file.item(0)
     var reader = new FileReader()
@@ -201,13 +243,18 @@ export class ManagePlaylistsComponent implements OnInit {
     reader.readAsDataURL(this.fileToUpload);
 
   }
-  addPlaylist(event)
+  
+  
+  addPlaylist(plname)
   {
-    event.preventDefault()
-    const target = event.target;
-    const cname = target.querySelector('#plname').value.trim();
+    // event.preventDefault()
+    // const target = event.target;
+    // const cname = target.querySelector('#plname').value.trim();
+    const cname = plname;
     this.http.get("http://localhost:8080/checkPlaylist?cname="+cname).subscribe((data) => this.checkPlaylist(data,cname));
   }
+  
+  
   checkPlaylist(data,cname)
   {
     for(var i of this.selectedsongs)
@@ -224,15 +271,25 @@ export class ManagePlaylistsComponent implements OnInit {
     var arr=JSON.parse(<any>y);
     const obj={
       name:cname,
+      filename:this.sname,
       songs:this.selectedIds
     }
     if(arr.length==0)
+    {
+      const fobj={
+        name:this.audioname
+      }
+     
+      this.http.post("http://localhost:8080/song/addaudio",fobj).pipe(map(res => res));
       this.http.post(`http://localhost:8080/addPlaylist`,obj).subscribe((data) => this.displayData(data));
       //this.http.get("http://localhost:8080/addPlaylist?cname="+cname).subscribe((data) => this.displayData(data));
+    }
     else
       this.succate="Playlist '"+cname+"' exists!!! Please, try with differnt name"
       //alert("Catagory of '"+cname+"' exists!!! Please, try with differnt name");
   }
+  
+  
   displayData(data){
     var x;
     x=data;
@@ -245,6 +302,8 @@ export class ManagePlaylistsComponent implements OnInit {
       location.reload();
     }
   }
+  
+  
   displayDataUP(data){
     var x;
     x=data;
@@ -257,12 +316,16 @@ export class ManagePlaylistsComponent implements OnInit {
       location.reload();
     }
   }
+  
+  
   removePlaylist(){
     if(this.rename==undefined)
       console.log('select playlist');
     else
       this.http.get("http://localhost:8080/removePlaylist?name="+this.rename).subscribe((data) => this.removedSong(data));
   }
+  
+  
   removedSong(data){
     var y = Array.of(data._body);
     var arr=JSON.parse(<any>y);

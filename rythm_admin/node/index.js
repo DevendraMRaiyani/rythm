@@ -81,7 +81,7 @@ app.post('/song/addaudio',upload.single('Song'),function(req,res){
   newItem.save(function(err) {
   if (err) {
     res.status(400);
-    res.send("Unable to add car");
+    res.send("Unable to add song");
   }
   else {
   
