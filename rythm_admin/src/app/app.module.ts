@@ -17,6 +17,7 @@ import { FormsModule } from '@angular/forms';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { FileSelectDirective } from 'ng2-file-upload';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 
 
 const appRoutes: Routes = [
@@ -64,8 +65,10 @@ const appRoutes: Routes = [
     HttpClientModule,  
     FormsModule, 
     Ng2SearchPipeModule,
-    NgbModule
-    
+    NgbModule,
+    ConfirmationPopoverModule.forRoot({
+      confirmButtonType:"danger"
+    })
   ],
   providers: [CookieService],
   bootstrap: [AppComponent],

@@ -28,6 +28,10 @@ export class ManagePlaylistsComponent implements OnInit {
   filestatus:number;
   public isCollapsed = true;
   audioname:String;
+  public popoverTitle:string="Delete Playlist?";
+  public popoverMessage:string="Are you sure want to delete this playlist?";
+  public confirmClicked:boolean=false;
+  public cancelClicked:boolean=false;
 
   public uploader: FileUploader = new FileUploader({url: UploadURL, itemAlias: 'Song'});
 

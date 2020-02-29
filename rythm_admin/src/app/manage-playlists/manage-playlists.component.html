@@ -180,7 +180,8 @@
                     </select>
                   </td>
                   <td>
-                    <input class="btn btn-danger"  type="button" value="Remove Playlist" (click)=removePlaylist()/>
+                    <input class="btn btn-danger"  type="button" value="Remove Playlist" mwlConfirmationPopover [popoverTitle]="popoverTitle"
+                    [popoverMessage]="popoverMessage" placement="border-right" (confirm)="removePlaylist()" (cancel)="cancelClicked=true"/>
                   </td>
                 </tr>
                 <br/>
