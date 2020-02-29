@@ -71,14 +71,14 @@
           <b style="color: red;">{{succate}}</b>
           
           
-              <form class="form-inline" (submit)=addPlaylist($event)>
+              <form class="form-inline" >
               <table>
                 <tr>
                   <td>
                     Playlist Name:
                   </td>
                   <td>
-                    <input class="form-control" type="text" name="plname" id="plname" placeholder="Enter New Playlist Name" required/>
+                    <input class="form-control" type="text" name="plname" [(ngModel)]="plname" id="plname" placeholder="Enter New Playlist Name" required/>
                   </td>
                 </tr>
                 <br/>
@@ -88,7 +88,8 @@
                   </td>
                   
                   <td>
-                     <input type="file" (change)="handleFileInput($event.target.files)" accept="image/*" />
+                     <!-- <input type="file" (change)="handleFileInput($event.target.files)" accept="image/*" /> -->
+                     <input type="file" (change)="handleFileInput($event.target.files)" name="Song" class="form-control-file" id="SongAudio" ng2FileSelect [uploader]="uploader" (change)="onFileChange($event)" />
                     <tr>
                       <td>
                         <span style="color: red;font-size: 12px;">(Note: only jpg or png files are allowed)</span>
@@ -154,7 +155,7 @@
                 <tr>
                   <td></td>
                   <td>
-                    <input class="btn btn-primary" type="submit" value="Create Playlist"/>
+                    <input class="btn btn-primary" type="submit" (click)="uploader.uploadAll()"  [disabled]="!uploader.getNotUploadedItems().length" (click)="addPlaylist(plname)" value="Create Playlist"/>
                   </td>
                 </tr>
               </table>
