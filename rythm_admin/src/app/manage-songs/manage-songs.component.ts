@@ -256,9 +256,9 @@ export class ManageSongsComponent implements OnInit {
     this.catagories=arr;
   }
 
-  removeSong(value)
+  removeSong(value,value1)
   {
-    this.http.get("http://localhost:8080/removeSong?sname="+value).subscribe((data) => this.deleteSongFinal(data));
+    this.http.get("http://localhost:8080/removeSong?sname="+value+"&fname="+value1).subscribe((data) => this.deleteSongFinal(data));
   }
   deleteSongFinal(data)
   {

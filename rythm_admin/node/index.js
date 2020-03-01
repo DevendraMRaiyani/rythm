@@ -240,9 +240,21 @@ app.get('/checkCatagory',(req,res)=>{
     var url_parts = geturl.parse(req.url, true);
     var query = url_parts.query;
     var name=query.name;
+    var fname = query.fname;
     var data = {  
         "name":name
       } 
+      const path = '../../rythm/src/assets/songs/'+fname ;
+
+      fs.unlink(path, (err) => {
+        if (err) {
+          console.error(err)
+          return
+        }
+      
+        //file removed
+      })
+
       console.log("deleted playlist : "+data.name);
     db.collection('playlists').deleteOne(data,function(err, result){ 
       if (err) throw err;
@@ -254,9 +266,21 @@ app.get('/checkCatagory',(req,res)=>{
     var url_parts = geturl.parse(req.url, true);
     var query = url_parts.query;
     var name=query.sname;
+    var fname = query.fname;
     var data = {  
         "name":name
       } 
+      const path = '../../rythm/src/assets/songs/'+fname ;
+
+      fs.unlink(path, (err) => {
+        if (err) {
+          console.error(err)
+          return
+        }
+      
+        //file removed
+      })
+
       console.log("deleted song: "+data.name);
     db.collection('songs').deleteOne(data,function(err, result){ 
       if (err) throw err;

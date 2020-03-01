@@ -130,6 +130,7 @@
                   <td #td2 class="col-md-4" hidden="true">{{song.filmname}}</td>
                   <td #td3 class="col-md-4" hidden="true">{{song.releasedate}}</td>
                   <td #td4 class="col-md-4" hidden="true">{{song.artists}}</td>
+                  <td #td5 class="col-md-4" hidden="true">{{song.link}}</td>
                   <td class="col-md-2">
                     <i (click)=playSong(td1.innerHTML) class="fa fa-play" title="Play"></i>
                   </td>
@@ -138,7 +139,7 @@
                   </td>
                   <td class="col-md-2">
                     <a style="text-decoration: none;"><i mwlConfirmationPopover [popoverTitle]="popoverTitle"
-                      [popoverMessage]="popoverMessage" placement="border-right" (confirm)="removeSong(td1.innerHTML)" (cancel)="cancelClicked=true" class="fa fa-trash-o" style="color: red;" title="Delete Song"></i></a>
+                      [popoverMessage]="popoverMessage" placement="border-right" (confirm)="removeSong(td1.innerHTML,td5.innerHTML)" (cancel)="cancelClicked=true" class="fa fa-trash-o" style="color: red;" title="Delete Song"></i></a>
                   </td>
                 </tr>
                 </tbody>
