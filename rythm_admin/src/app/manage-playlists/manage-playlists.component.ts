@@ -26,6 +26,7 @@ export class ManagePlaylistsComponent implements OnInit {
   imgurl:String= null;
   fileToUpload:File=null;
   filestatus:number;
+  fToDelete:String;
   public isCollapsed = true;
   audioname:String;
   public popoverTitle:string="Delete Playlist?";
@@ -158,6 +159,7 @@ export class ManagePlaylistsComponent implements OnInit {
         if(i.name==t)
         {
             this.plSongsId=i.songs
+            this.fToDelete = i.filename;
         }
       }
     }
@@ -323,10 +325,10 @@ export class ManagePlaylistsComponent implements OnInit {
   
   
   removePlaylist(){
-    if(this.rename==undefined)
+    if(this.rename==undefined || this.fToDelete==undefined) 
       console.log('select playlist');
     else
-      this.http.get("http://localhost:8080/removePlaylist?name="+this.rename).subscribe((data) => this.removedSong(data));
+      this.http.get("http://localhost:8080/removePlaylist?name="+this.rename+"&fname="+this.fToDelete).subscribe((data) => this.removedSong(data));
   }
   
   
