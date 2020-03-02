@@ -70,7 +70,8 @@
                             
                                 <td class="col-md-1" *ngIf="isLogin;then eb else tb"></td>
                                     <ng-template #tb>
-                                        <a routerLink="#" style="margin-top:15px;color:black;text-decoration: none;"><i (click)=likeSong(td1.innerHTML) title="add to My Favourite" class="fa fa-heart-o" style="font-size:20px;"></i></a>
+                                        <a routerLink="#" style="margin-top:15px;color:black;text-decoration: none;"><i (click)=likeSong(td1.innerHTML) title="add to My Favourite" class="fa fa-heart-o" style="font-size:20px;"></i></a>&nbsp;
+                                        <a href="../../assets/songs/{{song.plsongs[0].name}}.mp3" style="margin-top:15px;color:black;text-decoration: none;" download><i class="fa fa-download" style="font-size:20px;"></i></a>
                                     </ng-template>
                                     <ng-template #eb>
                                     </ng-template>
