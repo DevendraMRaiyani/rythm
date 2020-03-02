@@ -1,8 +1,5 @@
-1. conformation while deliting playlist or song or anywhare else needed
-K//2. Image is not storing in Folder for playlist
-3. Required field needed
-K//4. playlist icon display in Update playlist and change it functionality
-5. Remove files after delete song or playlist
-6. Neccessory constrains in playlist mgnt
+6. Neccessory constrains in admin with required field
 7. While deleting song delete song id from playlists
-M//8.Popup song Update in Update Playlist
+9. Admin UI
+10 User UI
+11. Download and Like button is not working in devendra pc
