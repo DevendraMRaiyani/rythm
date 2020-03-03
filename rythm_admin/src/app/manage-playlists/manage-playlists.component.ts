@@ -8,11 +8,110 @@ import { map } from 'rxjs/operators';
 const UploadURL = 'http://localhost:8080/api/upload';
 
 @Component({
+  selector: 'deletes-modal-content',
+  template: `
+              <div class="modal-header">
+                <h4 class="modal-title">Please Confirm...!</h4>
+                <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form (submit)=removePlaylist($event)>
+                <div class="modal-body">
+                  <table>
+                    <tr>
+                      <td>Do you really want to delete?</td>
+                      
+                    </tr>
+                    <tr hidden="true">
+                      <td><input type="text" id="pname" name="pname" class="form-control" value="{{plname}}"/></td>
+                      <td><input type="text" id="fname" name="fname" class="form-control" value="{{fplname}}"/></td>
+                      
+                    </tr>
+                  </table>
+                  
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" (click)="activeModal.close(false)">Close</button>
+                  <input type="submit" class="btn btn-primary" value="Ok"/>
+                </div>
+              </form>
+            `
+})
+
+export class DeletesModalContent{
+
+  songs
+  playlists
+  
+
+  constructor(public http:Http,public router:Router,public cookie:CookieService,private modalService: NgbModal,private activeModal: NgbActiveModal) { }
+
+
+  ngOnInit() {
+    if(!(this.cookie.check("Adminuname") && this.cookie.check("Adminuid")))
+      this.router.navigate([''])
+    else
+    {
+      this.http.get("http://localhost:8080/loadPlaylists").subscribe((data) => this.loadPlaylist(data));
+      this.http.get("http://localhost:8080/loadSongs").subscribe((data) => this.loadSongs(data));
+    }
+    
+  }
+
+
+  loadPlaylist(data)
+  {
+    var x;
+    x=data;
+    var y = Array.of(x._body);
+    var arr=JSON.parse(<any>y);
+    this.playlists=arr;
+    //console.log(arr);
+  }
+
+
+  loadSongs(data)
+  {
+    var x;
+    x=data;
+    var y = Array.of(x._body);
+    var arr=JSON.parse(<any>y);
+    this.songs=arr;
+    //console.log(arr);
+  }
+  
+  
+  
+  removePlaylist(event){
+    event.preventDefault()
+    const target = event.target;
+    const cname = target.querySelector('#pname').value.trim();
+    const cname1 = target.querySelector('#fname').value.trim();
+      this.http.get("http://localhost:8080/removePlaylist?name="+cname+"&fname="+cname1).subscribe((data) => this.removedSong(data));
+  }
+  removedSong(data){
+    var y = Array.of(data._body);
+    var arr=JSON.parse(<any>y);
+    if(arr.n==1){
+      alert("Playlist is removed Successfully!!!");
+      location.reload();
+    }
+  
+  }
+ 
+  
+}
+
+
+@Component({
   selector: 'app-manage-playlists',
   templateUrl: './manage-playlists.component.html',
   styleUrls: ['./manage-playlists.component.css']
 })
 export class ManagePlaylistsComponent implements OnInit {
+  plname
+  fplname
   playlists
   rename
   selectedsongs=[]
@@ -36,7 +135,7 @@ export class ManagePlaylistsComponent implements OnInit {
 
   public uploader: FileUploader = new FileUploader({url: UploadURL, itemAlias: 'Song'});
 
-  constructor(public http:Http,public router:Router,public cookie:CookieService) { }
+  constructor(public http:Http,public router:Router,public cookie:CookieService,private modalService: NgbModal) { }
 
 
   ngOnInit() {
@@ -54,6 +153,8 @@ export class ManagePlaylistsComponent implements OnInit {
        //console.log("file status",this.filestatus)
     };
   }
+
+  
 
   onFileChange(event){
     const file = (event.target as HTMLInputElement).files[0];
@@ -179,6 +280,12 @@ export class ManagePlaylistsComponent implements OnInit {
       }
     }
     //console.log("Songs: "+this.plSongs)
+  }
+  delete(){
+    const modalRef = this.modalService.open(DeletesModalContent);
+     modalRef.componentInstance.plname = this.rename;
+     modalRef.componentInstance.fplname = this.fToDelete;
+    // modalRef.componentInstance.link = value2;
   }
  
   updatePlaylist(event)
