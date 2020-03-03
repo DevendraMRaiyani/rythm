@@ -10,7 +10,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { ManageCatagoriesComponent } from './manage-catagories/manage-catagories.component';
 import { HeaderAdminComponent } from './header-admin/header-admin.component';
 import { ManagePlaylistsComponent } from './manage-playlists/manage-playlists.component';
-import { ManageSongsComponent,NgbdModalContent } from './manage-songs/manage-songs.component';
+import { ManageSongsComponent,NgbdModalContent, DeleteModalContent } from './manage-songs/manage-songs.component';
 import { HttpClientModule } from '@angular/common/http';
 import {FooterAdminComponent} from './footer-admin/footer-admin.component';
 import { FormsModule } from '@angular/forms';
@@ -54,6 +54,7 @@ const appRoutes: Routes = [
     ManagePlaylistsComponent,
     ManageSongsComponent,
     NgbdModalContent,
+    DeleteModalContent,
     FooterAdminComponent,
     FileSelectDirective
     ],
@@ -72,6 +73,6 @@ const appRoutes: Routes = [
   ],
   providers: [CookieService],
   bootstrap: [AppComponent],
-  entryComponents: [NgbdModalContent]
+  entryComponents: [NgbdModalContent,DeleteModalContent]
 })
 export class AppModule { }
