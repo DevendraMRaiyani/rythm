@@ -9,6 +9,76 @@ const UploadURL = 'http://localhost:8080/api/upload';
 
 
 @Component({
+  selector: 'delete-modal-content',
+  template: `
+              <div class="modal-header">
+                <h4 class="modal-title">Please Confirm...!</h4>
+                <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form (submit)=onDelete($event)>
+                <div class="modal-body">
+                  <table>
+                    Do you really want to delete?
+                    <tr>
+                      <td>Song Name</td>
+                      <td><input type="text" id="name" name="name" class="form-control" value="{{name}}"/></td>
+                    </tr>
+                    <tr>
+                      <td>Song Link</td>
+                      <td><input type="text" id="link" name="link" class="form-control" value="{{link}}"/></td>
+                    </tr>
+                 </table> 
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" (click)="activeModal.close(false)">Close</button>
+                  <input type="submit" class="btn btn-primary" value="Ok"/>
+                </div>
+              </form>
+            `
+})
+
+export class DeleteModalContent{
+
+  songs
+
+  constructor(public activeModal: NgbActiveModal,private http:Http,private router:Router,private cookie:CookieService) {}
+  ngOnInit() {
+    if(!(this.cookie.check("Adminuname") && this.cookie.check("Adminuid")))
+      this.router.navigate([''])
+    else{
+      // this.http.get("http://localhost:8080/loadPlaylists").subscribe((data) => this.loadPlaylist(data));
+      this.http.get("http://localhost:8080/loadSongs").subscribe((data) => this.loadSongs(data));
+    }
+  }
+  
+  loadSongs(data)
+  {
+    var x;
+    x=data;
+    var y = Array.of(x._body);
+    var arr=JSON.parse(<any>y);
+    this.songs=arr;
+  }
+  onDelete(event)
+  {
+    event.preventDefault()
+    const target = event.target;
+    const cname = target.querySelector('#name').value.trim();
+    const cname1 = target.querySelector('#link').value.trim();
+    this.http.get("http://localhost:8080/removeSong?sname="+cname+"&fname="+cname1).subscribe((data) => this.deleteSongFinal(data));
+  }
+  deleteSongFinal(data)
+  {
+    if(data.ok)
+      alert("Successfully deleted Song!!!")
+      location.reload();
+  }
+  
+}
+
+@Component({
   selector: 'ngbd-modal-content',
   template: `
     <div class="modal-header">
@@ -36,10 +106,22 @@ const UploadURL = 'http://localhost:8080/api/upload';
             <td>Artist Name</td>
             <td><input  type="text" id="reartists" class="form-control" value="{{artist}}"/></td>
           </tr>
+          <tr>
+            <td>Song Link</td>
+            <td><input  type="text" id="relink" class="form-control" value="{{link}}"/></td>
+          </tr>
+          <tr>
+            <td>Catagory</td>
+            <td>
+              <select class="form-control" (change)="selectChangeHandler($event)">
+                <option id="recat" value="{{cat}}" >{{cat}}</option>
+                <option  *ngFor="let i of songs" value="{{i.catagory}}">{{i.catagory}}</option>
+              </select>
+            </td>
+          </tr>
         </table> 
       </div>
       <div class="modal-footer">
-        
         <input type="submit" class="btn btn-primary" value="Update Changes"/>
       </div>
     </form>
@@ -50,10 +132,15 @@ export class NgbdModalContent {
   filmname;
   releasedate;
   artist
+  cat
+  link
+
   refilmname;
   rereleasedate;
   reartist
-  
+  recat
+  relink
+
   songs;
   playlists
   plSongsId
@@ -79,6 +166,24 @@ export class NgbdModalContent {
     var arr=JSON.parse(<any>y);
     this.songs=arr;
   }
+  selectChangeHandler (event: any) {
+    var t=event.target.value;
+    if(t!="-select-")
+      this.rename=t;
+    else
+      this.rename="";
+
+  }
+  removeSong(value,value1)
+  {
+    this.http.get("http://localhost:8080/removeSong?sname="+value+"&fname="+value1).subscribe((data) => this.deleteSongFinal(data));
+  }
+  deleteSongFinal(data)
+  {
+    if(data.ok)
+      alert("Successfully deleted Song!!!")
+      location.reload();
+  }
   onEdit(event)
   {
     event.preventDefault()
@@ -88,7 +193,8 @@ export class NgbdModalContent {
         name:cname,
         filmname : target.querySelector('#refilname').value.trim(),
         artists : target.querySelector('#reartists').value.trim(),
-        releasedate : target.querySelector('#releasedate').value.trim()
+        releasedate : target.querySelector('#releasedate').value.trim(),
+        catagory : target.querySelector('#recat').value.trim()
       }
     const mainobj={
         plobj:obj,
@@ -128,17 +234,27 @@ export class ManageSongsComponent implements OnInit {
 
 
 
-  open(value,value1,value2,value3) {
+  open(value,value1,value2,value3,value4,value5) {
     const modalRef = this.modalService.open(NgbdModalContent);
     modalRef.componentInstance.name = value;
     modalRef.componentInstance.filmname = value1;
     modalRef.componentInstance.releasedate = value2;
     modalRef.componentInstance.artist = value3;
+    modalRef.componentInstance.cat = value4;
+    modalRef.componentInstance.link = value5;
+
 
     modalRef.componentInstance.refilmname = value1.trim();
     modalRef.componentInstance.rereleasedate = value2.trim();
     modalRef.componentInstance.reartist = value3.trim();
     modalRef.componentInstance.rename = value.trim();
+    modalRef.componentInstance.relink = value.trim();
+  }
+
+  delete(value1,value2){
+    const modalRef = this.modalService.open(DeleteModalContent);
+    modalRef.componentInstance.name = value1;
+    modalRef.componentInstance.link = value2;
   }
 
   public uploader: FileUploader = new FileUploader({url: UploadURL, itemAlias: 'Song'});
