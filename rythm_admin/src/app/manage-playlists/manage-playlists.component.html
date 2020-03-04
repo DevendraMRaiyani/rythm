@@ -175,13 +175,16 @@
                   </td>
                   <td>
                     <select class="form-control" (change)="selectChangeHandler($event)">
-                      <option >-select-</option>
-                      <option *ngFor="let i of playlists" value="{{i.name}}">{{i.name}} </option>
+                      <option>-select-</option>
+                      <option *ngFor="let i of playlists" value="{{i.name}}">{{i.name}}</option>
                     </select>
+                    
                   </td>
+                  
                   <td>
-                    <input class="btn btn-danger"  type="button" value="Remove Playlist" mwlConfirmationPopover [popoverTitle]="popoverTitle"
-                    [popoverMessage]="popoverMessage" placement="border-right" (confirm)="removePlaylist()" (cancel)="cancelClicked=true"/>
+                    <input class="btn btn-danger" type="button" (click)="delete()" value="Remove Playlist" />
+                    <!-- mwlConfirmationPopover [popoverTitle]="popoverTitle"
+                    [popoverMessage]="popoverMessage" placement="border-right" (confirm)="removePlaylist()" (cancel)="cancelClicked=true" -->
                   </td>
                 </tr>
                 <br/>
