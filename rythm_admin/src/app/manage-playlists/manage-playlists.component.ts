@@ -18,12 +18,12 @@ const UploadURL = 'http://localhost:8080/api/upload';
               </div>
               <form (submit)=removePlaylist($event)>
                 <div class="modal-body">
-                  <table>
+                  Do you really want to delete? {{plname}}
+                  <table hidden="true">
                     <tr>
                       <td>Do you really want to delete?</td>
-                      
                     </tr>
-                    <tr hidden="true">
+                    <tr>
                       <td><input type="text" id="pname" name="pname" class="form-control" value="{{plname}}"/></td>
                       <td><input type="text" id="fname" name="fname" class="form-control" value="{{fplname}}"/></td>
                       
@@ -40,14 +40,9 @@ const UploadURL = 'http://localhost:8080/api/upload';
 })
 
 export class DeletesModalContent{
-
   songs
   playlists
-  
-
   constructor(public http:Http,public router:Router,public cookie:CookieService,private modalService: NgbModal,private activeModal: NgbActiveModal) { }
-
-
   ngOnInit() {
     if(!(this.cookie.check("Adminuname") && this.cookie.check("Adminuid")))
       this.router.navigate([''])
@@ -55,11 +50,8 @@ export class DeletesModalContent{
     {
       this.http.get("http://localhost:8080/loadPlaylists").subscribe((data) => this.loadPlaylist(data));
       this.http.get("http://localhost:8080/loadSongs").subscribe((data) => this.loadSongs(data));
-    }
-    
+    } 
   }
-
-
   loadPlaylist(data)
   {
     var x;
@@ -69,8 +61,6 @@ export class DeletesModalContent{
     this.playlists=arr;
     //console.log(arr);
   }
-
-
   loadSongs(data)
   {
     var x;
@@ -80,9 +70,6 @@ export class DeletesModalContent{
     this.songs=arr;
     //console.log(arr);
   }
-  
-  
-  
   removePlaylist(event){
     event.preventDefault()
     const target = event.target;
@@ -97,10 +84,7 @@ export class DeletesModalContent{
       alert("Playlist is removed Successfully!!!");
       location.reload();
     }
-  
-  }
- 
-  
+  } 
 }
 
 
@@ -285,7 +269,6 @@ export class ManagePlaylistsComponent implements OnInit {
     const modalRef = this.modalService.open(DeletesModalContent);
      modalRef.componentInstance.plname = this.rename;
      modalRef.componentInstance.fplname = this.fToDelete;
-    // modalRef.componentInstance.link = value2;
   }
  
   updatePlaylist(event)

@@ -19,8 +19,9 @@ const UploadURL = 'http://localhost:8080/api/upload';
               </div>
               <form (submit)=onDelete($event)>
                 <div class="modal-body">
-                  <table>
-                    Do you really want to delete?
+                  Do you really want to delete? {{name}}
+                  <table hidden="true">
+                    
                     <tr>
                       <td>Song Name</td>
                       <td><input type="text" id="name" name="name" class="form-control" value="{{name}}"/></td>
@@ -106,7 +107,7 @@ export class DeleteModalContent{
             <td>Artist Name</td>
             <td><input  type="text" id="reartists" class="form-control" value="{{artist}}"/></td>
           </tr>
-          <tr>
+          <tr hidden="true">
             <td>Song Link</td>
             <td><input  type="text" id="relink" class="form-control" value="{{link}}"/></td>
           </tr>
