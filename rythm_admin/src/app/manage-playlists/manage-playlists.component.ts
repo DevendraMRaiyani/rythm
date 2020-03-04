@@ -289,7 +289,7 @@ export class ManagePlaylistsComponent implements OnInit {
 
     if(cname!=this.selectedpl)
       this.http.get("http://localhost:8080/checkPlaylist?cname="+cname).subscribe((data) => this.checkPlaylistUP(data,cname));
-    else
+    else if(this.plSongs.length > 0)
     {
       const obj={
         name:cname,
@@ -320,9 +320,16 @@ export class ManagePlaylistsComponent implements OnInit {
       plobj:obj,
       oldnm:this.rename
     }
-    if(arr.length==0)
+    console.log(this.plSongs.length);
+    if(arr.length==0 && this.plSongs.length > 0)
+    {
       this.http.post(`http://localhost:8080/updatePlaylist`,mainobj).subscribe((data) => this.displayDataUP(data));
       //this.http.get("http://localhost:8080/addPlaylist?cname="+cname).subscribe((data) => this.displayData(data));
+      
+    }else if(this.plSongs.length == 0)
+    {
+      this.succate="There should be atlest one song in the playlist.";
+    }
     else
       this.succate="Playlist '"+cname+"' exists!!! Please, try with differnt name"
       //alert("Catagory of '"+cname+"' exists!!! Please, try with differnt name");
@@ -370,7 +377,7 @@ export class ManagePlaylistsComponent implements OnInit {
       filename:this.sname,
       songs:this.selectedIds
     }
-    if(arr.length==0)
+    if(arr.length==0 && this.selectedsongs.length > 0)
     {
       const fobj={
         name:this.audioname
@@ -379,6 +386,9 @@ export class ManagePlaylistsComponent implements OnInit {
       this.http.post("http://localhost:8080/song/addaudio",fobj).pipe(map(res => res));
       this.http.post(`http://localhost:8080/addPlaylist`,obj).subscribe((data) => this.displayData(data));
       //this.http.get("http://localhost:8080/addPlaylist?cname="+cname).subscribe((data) => this.displayData(data));
+    }else if(this.selectedsongs.length == 0)
+    {
+      this.succate = "You can not create empty playlists."
     }
     else
       this.succate="Playlist '"+cname+"' exists!!! Please, try with differnt name"

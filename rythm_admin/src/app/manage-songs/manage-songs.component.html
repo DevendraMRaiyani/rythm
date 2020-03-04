@@ -48,7 +48,7 @@
                 <tr> 
                   <td>Choose Song File:</td>
                   <td>
-                    <input type="file" name="Song" class="form-control-file" id="SongAudio" ng2FileSelect [uploader]="uploader" (change)="onFileChange($event)" accept=".mp3"/>
+                    <input type="file" name="Song" class="form-control-file" id="SongAudio" ng2FileSelect [uploader]="uploader" (change)="onFileChange($event)" required accept="audio/*"/>
                     <span style="color: red;font-size: 12px;">(Note: only .mp3 are allowed)</span>
                   </td>
                   <!-- <input  type="file" name="sfile" id="sfile" accept="image/*" required/> -->
@@ -64,7 +64,7 @@
                 <tr>
                   <td>Film Name:</td>
                   <td>
-                    <input class="form-control" type="text" name="fname" id="fname" placeholder="Enter Film Name (Optional)" [(ngModel)]="fname"/>
+                    <input class="form-control" type="text" name="fname" id="fname" placeholder="Enter Film Name (Optional)" [(ngModel)]="fname" required/>
                   </td>
                 </tr>
                 <br/>
@@ -85,7 +85,7 @@
                 <tr>
                   <td>Select Catagory of Song:</td>
                   <td>
-                    <select class="form-control" (change)="selectChangeHandler($event)">
+                    <select class="form-control" (change)="selectChangeHandler($event)" required>
                       <option >-select-</option>
                       <option  *ngFor="let i of catagories" value="{{i.Catagory}}">{{i.Catagory}}</option>
                     </select>
