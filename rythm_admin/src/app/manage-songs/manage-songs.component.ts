@@ -323,10 +323,16 @@ export class ManageSongsComponent implements OnInit {
   addSong(obj:any)
   {
     //console.log("asdsadjkshdjhsdjhsahdjhsajdhjs")
+    if(obj.name == undefined || obj.artists == undefined || obj.filmname == undefined || obj.releasedate == undefined || this.rename.length ==0 )
+    {
+      alert("some field is missing ")
+      location.reload();
+    }
     obj.name=obj.name.trim();
     obj.filmname=obj.filmname.trim();
     obj.catagory=this.rename;
     obj.link=this.audioname;
+    
     const fobj={
       name:this.audioname
     }

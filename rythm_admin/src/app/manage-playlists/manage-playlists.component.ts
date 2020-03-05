@@ -276,7 +276,12 @@ export class ManagePlaylistsComponent implements OnInit {
     event.preventDefault()
     const target = event.target;
     const cname = target.querySelector('#rename').value.trim();
-
+    if(cname == undefined || cname.length ==0)
+    {
+      alert("Please enter playlist name.")
+      location.reload();
+    }
+    console.log("hl")
     this.plSongsId=[]
     for(var i of this.plSongs)
     {
@@ -288,7 +293,10 @@ export class ManagePlaylistsComponent implements OnInit {
     }
 
     if(cname!=this.selectedpl)
+    {
+      console.log("hello");
       this.http.get("http://localhost:8080/checkPlaylist?cname="+cname).subscribe((data) => this.checkPlaylistUP(data,cname));
+    }
     else if(this.plSongs.length > 0)
     {
       const obj={
@@ -300,8 +308,11 @@ export class ManagePlaylistsComponent implements OnInit {
         oldnm:this.rename
       }
       this.http.post(`http://localhost:8080/updatePlaylist`,mainobj).subscribe((data) => this.displayDataUP(data));
+    }else{
+      alert("you can not make playlist empty 'try again'!")
+      location.reload();
     }
-
+    
   }
   
   
@@ -320,7 +331,7 @@ export class ManagePlaylistsComponent implements OnInit {
       plobj:obj,
       oldnm:this.rename
     }
-    console.log(this.plSongs.length);
+    console.log("asdsdsddsadsad");
     if(arr.length==0 && this.plSongs.length > 0)
     {
       this.http.post(`http://localhost:8080/updatePlaylist`,mainobj).subscribe((data) => this.displayDataUP(data));
@@ -328,7 +339,9 @@ export class ManagePlaylistsComponent implements OnInit {
       
     }else if(this.plSongs.length == 0)
     {
-      this.succate="There should be atlest one song in the playlist.";
+      alert("There should be atlest one song in the playlist.");
+      location.reload();
+      
     }
     else
       this.succate="Playlist '"+cname+"' exists!!! Please, try with differnt name"
@@ -353,8 +366,16 @@ export class ManagePlaylistsComponent implements OnInit {
     // event.preventDefault()
     // const target = event.target;
     // const cname = target.querySelector('#plname').value.trim();
-    const cname = plname;
+    
+    if(plname == undefined)
+    {
+      alert("playlist name must be there");
+      location.reload();
+    }else{
+      const cname = plname;
     this.http.get("http://localhost:8080/checkPlaylist?cname="+cname).subscribe((data) => this.checkPlaylist(data,cname));
+    }
+    
   }
   
   
@@ -388,7 +409,8 @@ export class ManagePlaylistsComponent implements OnInit {
       //this.http.get("http://localhost:8080/addPlaylist?cname="+cname).subscribe((data) => this.displayData(data));
     }else if(this.selectedsongs.length == 0)
     {
-      this.succate = "You can not create empty playlists."
+      alert("You can not create empty playlists.");
+      location.reload();
     }
     else
       this.succate="Playlist '"+cname+"' exists!!! Please, try with differnt name"
