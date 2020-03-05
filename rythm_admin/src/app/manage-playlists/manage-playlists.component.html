@@ -84,12 +84,12 @@
                 <br/>
                 <tr> 
                   <td>
-                    Choose Playlist Icon:
+                     Icon:
                   </td>
                   
                   <td>
                      <!-- <input type="file" (change)="handleFileInput($event.target.files)" accept="image/*" /> -->
-                     <input type="file" (change)="handleFileInput($event.target.files)" name="Song" class="form-control-file" id="SongAudio" ng2FileSelect [uploader]="uploader" (change)="onFileChange($event)" />
+                     <input type="file" (change)="handleFileInput($event.target.files)" name="Song" class="form-control-file" id="SongAudio" ng2FileSelect [uploader]="uploader" (change)="onFileChange($event)" required accept="image/*"/>
                     <tr>
                       <td>
                         <span style="color: red;font-size: 12px;">(Note: only jpg or png files are allowed)</span>
@@ -140,7 +140,7 @@
                         <tr *ngFor="let song of songs | filter:searchText">
                           
                           <td #td1 class="col-md-10" title="{{song.name}}">{{song.name}}</td>
-                          
+                           
                           <td class="col-md-2">
                             <i (click)=AddSong(td1.innerHTML) class="fa  fa-plus fa-circl" style="color: honeydew;" title="Add Song"></i>
                           </td>
