@@ -19,7 +19,7 @@ const UploadURL = 'http://localhost:8080/api/upload';
               </div>
               <form (submit)=onDelete($event)>
                 <div class="modal-body">
-                  Do you really want to delete? {{name}}
+                Do you really want to delete?
                   <table hidden="true">
                     
                     <tr>
@@ -114,9 +114,9 @@ export class DeleteModalContent{
           <tr>
             <td>Catagory</td>
             <td>
-              <select class="form-control" (change)="selectChangeHandler($event)">
-                <option id="recat" value="{{cat}}" >{{cat}}</option>
-                <option  *ngFor="let i of songs" value="{{i.catagory}}">{{i.catagory}}</option>
+              <select class="form-control" id="recat" (change)="selectChangeHandler($event)">
+                <option value="{{cat}}">{{cat}}</option>
+                <option *ngFor="let i of catagories" value="{{i.Catagory}}">{{i.Catagory}}</option>
               </select>
             </td>
           </tr>
@@ -149,6 +149,8 @@ export class NgbdModalContent {
   rename
   selectedpl
   succate
+  ournew
+  catagories
   constructor(public activeModal: NgbActiveModal,private http:Http,private router:Router,private cookie:CookieService) {}
   ngOnInit() {
     if(!(this.cookie.check("Adminuname") && this.cookie.check("Adminuid")))
@@ -156,6 +158,7 @@ export class NgbdModalContent {
     else{
       // this.http.get("http://localhost:8080/loadPlaylists").subscribe((data) => this.loadPlaylist(data));
       this.http.get("http://localhost:8080/loadSongs").subscribe((data) => this.loadSongs(data));
+      this.http.get("http://localhost:8080/loadCata").subscribe((data) => this.loadCatag(data));
     }
   }
   
@@ -167,12 +170,20 @@ export class NgbdModalContent {
     var arr=JSON.parse(<any>y);
     this.songs=arr;
   }
+  loadCatag(data)
+  {
+    var x;
+    x=data;
+    var y = Array.of(x._body);
+    var arr=JSON.parse(<any>y);
+    this.catagories=arr;
+  }
   selectChangeHandler (event: any) {
     var t=event.target.value;
     if(t!="-select-")
-      this.rename=t;
+      this.ournew=t;
     else
-      this.rename="";
+      this.ournew="";
 
   }
   removeSong(value,value1)
@@ -189,18 +200,19 @@ export class NgbdModalContent {
   {
     event.preventDefault()
     const target = event.target;
-    const cname = target.querySelector('#rename').value.trim();
     const obj={
-        name:cname,
+        name:target.querySelector('#rename').value.trim(),
         filmname : target.querySelector('#refilname').value.trim(),
         artists : target.querySelector('#reartists').value.trim(),
         releasedate : target.querySelector('#releasedate').value.trim(),
-        catagory : target.querySelector('#recat').value.trim()
+        catagory : this.ournew
       }
     const mainobj={
         plobj:obj,
         oldnm:this.rename
       }
+      console.log(obj.catagory)
+      console.log(mainobj.oldnm)
       console.log(obj)
     this.http.post(`http://localhost:8080/updateSongs`,mainobj).subscribe((data) => this.displayDataUP(data));
   }
@@ -249,7 +261,8 @@ export class ManageSongsComponent implements OnInit {
     modalRef.componentInstance.rereleasedate = value2.trim();
     modalRef.componentInstance.reartist = value3.trim();
     modalRef.componentInstance.rename = value.trim();
-    modalRef.componentInstance.relink = value.trim();
+    modalRef.componentInstance.relink = value5.trim();
+    modalRef.componentInstance.recat = value4.trim();
   }
 
   delete(value1,value2){
