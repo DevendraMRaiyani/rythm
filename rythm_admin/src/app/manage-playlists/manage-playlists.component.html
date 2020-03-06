@@ -78,7 +78,7 @@
                     Playlist Name:
                   </td>
                   <td>
-                    <input class="form-control" type="text" name="plname" [(ngModel)]="plname" id="plname" placeholder="Enter New Playlist Name" required/>
+                    <input class="form-control" type="text" name="plname" [(ngModel)]="plname" id="plname" placeholder="Enter New Playlist Name" required />
                   </td>
                 </tr>
                 <br/>
@@ -174,7 +174,7 @@
                     Playlist Name:
                   </td>
                   <td>
-                    <select class="form-control" (change)="selectChangeHandler($event)">
+                    <select class="form-control" (change)="selectChangeHandler($event)" required>
                       <option>-select-</option>
                       <option *ngFor="let i of playlists" value="{{i.name}}">{{i.name}}</option>
                     </select>

@@ -24,6 +24,11 @@ export class LoginComponent implements OnInit {
   loginUser(event){
     event.preventDefault()
     const target = event.target;
+    if(target.querySelector('#lemail').value.length == 0 || target.querySelector('#lpass').value.length == 0)
+    {
+      alert("some field missing")
+      location.reload();
+    }
     const unm = target.querySelector('#lemail').value;
     const pass = target.querySelector('#lpass').value;
     this.http.get("http://localhost:3000/login?uname="+unm+"&pass="+pass).subscribe((data) => this.displayData(data));

@@ -26,16 +26,31 @@ export class SignupComponent implements OnInit {
   signupUser(event){
     event.preventDefault()
     const target = event.target;
+    console.log("asdsd"+target.querySelector('#unm').value+"1")
+    if(target.querySelector('#unm').value.length ==0  || target.querySelector('#semail').value.length ==0
+    || target.querySelector('#spass').value.length == 0 || target.querySelector('#srepass').value.length == 0)
+    {
+      alert("Some field missing ")
+      location.reload();
+    }
     const unm = target.querySelector('#unm').value;
     const uemail = target.querySelector('#semail').value;
     const pass = target.querySelector('#spass').value;
     const cpass = target.querySelector('#srepass').value;
+    
     this.mail=uemail;
     this.nm=unm;
+    
+    if(pass.length < 8)
+    {
+      alert("password must be of atleast 8 character")
+      location.reload()
+    }
     if(cpass!=pass)
       alert("Both Password not matched!!")
     else
     {
+      
       this.http.get("http://localhost:3000/checkac?umail="+this.mail).subscribe((data) => this.tempcookie(data,unm,uemail,pass));
     }
   }
