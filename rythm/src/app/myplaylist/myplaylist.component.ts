@@ -36,6 +36,7 @@ export class MyplaylistComponent implements OnInit {
     var y = Array.of(x._body);
     var arr=JSON.parse(<any>y);
     this.songs=arr;
+    console.log(arr)
   }
 
   logOut(){
@@ -45,6 +46,7 @@ export class MyplaylistComponent implements OnInit {
   }
 
   removeSong(value){
+    console.log(value)
     this.http.get("http://localhost:3000/remove?uname="+this.cookie.get("uid")+"&song="+value).subscribe((data) => this.removedSong(data));
   }
   removedSong(data){
