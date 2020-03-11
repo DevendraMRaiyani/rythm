@@ -65,7 +65,11 @@ export class PlaylistdisplayComponent implements OnInit {
   }
   playSong(value){
     this.msbapTitle = value;
-    this.msbapAudioUrl = './assets/songs/'+value+'.mp3';
+    this.songs.forEach(element => {
+      if(element.name==value)
+      this.msbapAudioUrl = './assets/songs/'+element.link;
+    });
+    
   }
  
   searchSong(value:string){
