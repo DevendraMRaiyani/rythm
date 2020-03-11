@@ -1,4 +1,3 @@
-D//7. While deleting song delete song id from playlists
 9. Admin UI
 KM//10 User UI
 M//12.Fevourite spelling all
