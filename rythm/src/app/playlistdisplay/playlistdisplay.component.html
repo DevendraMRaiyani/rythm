@@ -7,7 +7,7 @@
     <div class="row form-inline">
         <div class="col-sm-5 col-md-3 col-lg-3 col-xl-3">
                 <div class="navbar-expand-sm navbar-brand">
-                        <a routerLink="" class="sample" style="text-decoration: none"><b>mmusic.com</b></a>
+                        <a routerLink="" class="sample" style="text-decoration: none"><b>rythm</b></a>
                 </div>
         </div>
         <div class="col-sm-5 col-md-8 col-lg-8 col-xl-8">
@@ -57,30 +57,35 @@
             <div class="col-md-8">				
                 <table class="table table-hover">
                     <tr class="row">
-                        <th class="col-md-2">#</th>
-                        <th class="col-md-4">TITLE</th>
-                        <th class="col-md-2" style="margin-left: -20px;">ARTISTS</th>
-                        <th class="col-md-4">FILMNAME</th>
+                        <th class="col-md-1">#</th>
+                        <th class="col-md-3">TITLE</th>
+                        <th class="col-md-2">ARTISTS</th>
+                        <th class="col-md-3">FILMNAME</th>
                     </tr>
                 </table>
                 <table id="table" class="table table-hover" *ngFor="let song of songs;index as i" >
                     <tr class="row">
                             <td class="col-md-1" (click)=playSong(td1.innerHTML)>{{i+1}}</td>
+                            <td #td1 class="col-md-3" (click)=playSong(td1.innerHTML)>{{song.name}}</td>
+                            <td class="col-md-2" (click)=playSong(td1.innerHTML)>{{song.artists}}</td>
+                            <td class="col-md-3" (click)=playSong(td1.innerHTML)>{{song.filmname}}</td>
                             
+                            <td class="col-md-1" *ngIf="isLogin;then eb else tb"></td>
+                            <ng-template #tb>
+                                <a routerLink="/playlist/{{pnm}}" style="margin-left:30px;margin-top:15px;color:black;text-decoration: none;"><i (click)=likeSong(td1.innerHTML) title="add to My Favourite" class="fa fa-heart-o" style="font-size:20px;"></i></a>&nbsp;
+                            </ng-template>
+                            <ng-template #eb>
+                            </ng-template>
+
+                            <td class="col-md-1" *ngIf="isLogin;then eb1 else tb1"></td>
+                            <ng-template #tb1>
+                                <a href="../../assets/songs/{{song.link}}" style="margin-left:30px;margin-top:15px;color:black;text-decoration: none;" download><i class="fa fa-download" title="Download Song" style="font-size:20px;"></i></a>
+                            </ng-template>
+                            <ng-template #eb1>
+                            </ng-template>
+                        
+
                             
-                                <td class="col-md-1" *ngIf="isLogin;then eb else tb"></td>
-                                    <ng-template #tb>
-                                        <a routerLink="#" style="margin-top:15px;color:black;text-decoration: none;"><i (click)=likeSong(td1.innerHTML) title="add to My Favourite" class="fa fa-heart-o" style="font-size:20px;"></i></a>&nbsp;
-                                        <a href="../../assets/songs/{{song.plsongs[0].name}}.mp3" style="margin-top:15px;color:black;text-decoration: none;" download><i class="fa fa-download" style="font-size:20px;"></i></a>
-                                    </ng-template>
-                                    <ng-template #eb>
-                                    </ng-template>
-                                
-                            
-                            
-                            <td #td1 class="col-md-4"  style="margin-left: 20px;" (click)=playSong(td1.innerHTML)>{{song.plsongs[0].name}}</td>
-                            <td class="col-md-2" (click)=playSong(td1.innerHTML)>{{song.plsongs[0].artists}}</td>
-                            <td class="col-md-4" (click)=playSong(td1.innerHTML)>{{song.plsongs[0].filmname}}</td>   
                     </tr>                    
                 </table>
             </div>

@@ -58,31 +58,58 @@ app.get('/searchsong',(req,res)=>{
 app.get('/loadsongs',(req,res)=>{
   var response;
   var url_parts = geturl.parse(req.url, true);
-  var query = url_parts.query;
-  MongoClient.connect(url,{
+  var pname = url_parts.query.pname;
+  var data={"name":pname}
+
+  db.collection('playlists').find(data).toArray(function(err, result){ 
+		
+    if (err) throw err;
+    var selectedIds=result[0].songs;
+    console.log(selectedIds);
+
+  
+    db.collection('songs').find().toArray(function(err, result1){ 
+      if (err) throw err;
+          var songsObj=[];
+          selectedIds.forEach(element => {
+            result1.forEach(elements => {
+                if(elements._id==element)
+                  songsObj.push(elements);
+                  
+            });
+          });
+//          console.log(songsObj);
+          res.json(songsObj);
+        });
+	});
+
+
+
+ /* MongoClient.connect(url,{
     useNewUrlParser: true,
     useUnifiedTopology: true
     }, function(err, db) {
     if (err) throw err;
     var dbo = db.db("rythm");
     //Find the first document in the customers collection:
-    dbo.collection(query.pname).aggregate([
+    dbo.collection('playlists').aggregate([
       { $lookup:
         {
           from: 'songs',
-          localField: 'song_id',
-          foreignField: 'song_id',
+          localField: 'songs',
+          foreignField: '_id',
           as: 'plsongs'
         }
       }
     ]).toArray(function(err, result) {
       if (err) throw err;
      response=result;
-     console.log("songs of "+query.pname+" ok");     
+     console.log(response);     
      res.json(response);
     db.close();
-    });  
-});   
+    });
+
+});*/  
 })
 
 app.get('/login',(req,res)=>{

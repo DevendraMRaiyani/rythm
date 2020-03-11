@@ -1,4 +1,6 @@
-7. While deleting song delete song id from playlists
+D//7. While deleting song delete song id from playlists
 9. Admin UI
-10 User UI
-11. Download and Like button is not working in devendra pc
+KM//10 User UI
+D//11. Like button, logout is not working in devendra pc
+M//12.Fevourite spelling all
+M//13.Admin Logout
