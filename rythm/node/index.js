@@ -264,6 +264,87 @@ app.get('/loadplaylist',(req,res)=>{
 });
 })
 
+app.get('/remove',(req,res)=>{
+	var url_parts = geturl.parse(req.url, true);
+	var query = url_parts.query;
+	var uid=query.uname;
+	var song=query.song;
+	var data = { 
+		  "user": uid, 
+		  "song":song
+	  } 
+	  
+	db.collection('myfavourite').deleteOne(data,function(err, result){ 
+		if (err) throw err;
+		res.json(result.result);
+	});	  
+});
+
+app.get('/loadMyFavouriteSongs',(req,res)=>{
+	var url_parts = geturl.parse(req.url, true);
+  	var query = url_parts.query;
+    var uid=query.uname;
+
+
+	  MongoClient.connect(url,{
+		useNewUrlParser: true,
+		useUnifiedTopology: true
+		}, function(err, db) {
+		if (err) throw err;
+		var dbo = db.db("rythm");
+		//Find the first document in the customers collection:
+		dbo.collection("myfavourite").aggregate([
+			{ $lookup:
+			  {
+				from: 'songs',
+				localField: 'song',
+				foreignField: 'name',
+				as: 'flsongs'
+			  }
+			},
+			{
+				"$match": {
+					"user": uid
+				}
+			}
+		  ]).toArray( function(err, result) {
+      if (err) throw err;
+      //console.log(result);
+		  console.log("my favourite list : "+uid+" : ok");
+		  res.json(result);
+		  db.close();
+		});
+	});  
+  });
+
+  app.get('/like',(req,res)=>{
+    var url_parts = geturl.parse(req.url, true);
+    var query = url_parts.query;
+    var uid=query.uname;
+    var song=query.song;
+    var data = { 
+      "user": uid, 
+      "song":song
+    } 
+    
+    db.collection('myfavourite').find(data).toArray(function(err, result){ 
+      
+      if (err) throw err;
+      
+      if(result.length!=0){
+            db.collection('myfavourite').deleteOne(data,function(err, result){ 
+          if (err) throw err;
+        });
+        res.json("{n:0,ok:0}");
+      }
+      else{
+        db.collection('myfavourite').insertOne(data,function(err, result){ 
+          if (err) throw err;  
+          res.json(result.result);
+        });			
+      }
+    });
+  });
 
 app.listen(3000,'localhost',function(){
 	console.log("server listening at port 3000");
