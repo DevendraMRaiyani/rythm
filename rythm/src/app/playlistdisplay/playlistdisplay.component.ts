@@ -46,10 +46,12 @@ export class PlaylistdisplayComponent implements OnInit {
     this.cookie.delete("uname");
     this.cookie.delete("uid");
     this.isLogin=true;
+    location.reload();
     console.log("logout");
   }
 
   likeSong(value){
+    console.log(value)
     this.http.get("http://localhost:3000/like?uname="+this.cookie.get("uid")+"&song="+value).subscribe((data) => this.likedSong(data));
   }
   likedSong(data){
