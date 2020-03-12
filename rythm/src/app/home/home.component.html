@@ -6,24 +6,51 @@
 <style>
   .songcontainer {
   width: 100%;
+  height: 200px;
+  border: 1px solid gray;
+  overflow: auto;
+  overflow-x: auto;
+}
+
+.songcontainer1 {
+  width: 100%;
   height: 250px;
   border: 1px solid gray;
   overflow: auto;
   overflow-x: auto;
 }
+
+.songcontainer2{
+  width: 100%;
+  height: 210px;
+  border: 1px solid gray;
+  overflow: auto;
+  overflow-x: auto;
+}
+
 .div2 {
   width: 150px;
-  height: 100px;  
-  padding-top: 30px;
-  border: 1px solid black;
+  height: 150px;  
+  border: 1px solid #ff0066;
   text-align:center;
   font-size: 25px;
+  border-radius: 10px;
 }
 .div1{
   width: 150px;
   height: 100px;
 }
-
+.containerImg {
+  position: relative;
+  text-align: center;
+  color: #0099cc;
+}
+.centered {
+  position: absolute;
+  top: 85%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 </style>
 
 
@@ -69,11 +96,52 @@
 <br><br><br><br>
 
 <div class="container">
-    
-  <h4><b>Playlist</b></h4>
-    
+  <h4><b>Recently Released</b></h4>
+  <div class="songcontainer1">
+      
+    <table class="table table-hover">
+      
+      <tbody>
+        <tr >
+          <th  class="col-md-1">
+           
+          </th>
+          <th #td1 class="col-md-4">Title</th>
+          <th #td2 class="col-md-4" >Film/Album</th>
+          <th #td3 class="col-md-4" hidden="true">Release Date</th>
+          <th #td4 class="col-md-4" >Artists</th>
+          <th #td5 class="col-md-4" hidden="true">song.link</th>
+          <th #td6 class="col-md-4" hidden="true">song.catagory</th>
+          
+          
+        </tr>
+        <tr *ngFor="let song of recentSongs">
+          <td  class="col-md-1">
+            <i (click)=playSong(td5.innerHTML,td5.innerHTML) class="fa fa-play" title="Play"></i>
+          </td>
+          <td #td1 class="col-md-4">{{song.name}}</td>
+          <td #td2 class="col-md-4" >{{song.filmname}}</td>
+          <td #td3 class="col-md-4" hidden="true">{{song.releasedate}}</td>
+          <td #td4 class="col-md-4" >{{song.artists}}</td>
+          <td #td5 class="col-md-4" hidden="true">{{song.link}}</td>
+          <td #td6 class="col-md-4" hidden="true">{{song.catagory}}</td>
+        
+        
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <br/>
+  <hr>
     <div>
-      <input class="form-control" style="width: 30%;" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="Search Playlist...">
+      <table> 
+        <tr> 
+          <td><h4><b>Playlists</b></h4></td>
+          <td>
+            <input class="form-control" style="margin-left:20px;width: 100%;" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="Search Playlist...">
+          </td>
+        </tr>
+      </table>
     </div>
     <br/>
       <div class="songcontainer">
@@ -97,44 +165,10 @@
       </div>
     
     <br/>
-    <h4><b>Recently Released</b></h4>
-    <div class="songcontainer">
-        
-      <table class="table table-hover">
-        
-        <tbody>
-          <tr >
-          
-            <th #td1 class="col-md-4">Title</th>
-            <th #td2 class="col-md-4" >Film/Album</th>
-            <th #td3 class="col-md-4" hidden="true">Release Date</th>
-            <th #td4 class="col-md-4" >Artists</th>
-            <th #td5 class="col-md-4" hidden="true">song.link</th>
-            <th #td6 class="col-md-4" hidden="true">song.catagory</th>
-            <th  class="col-md-2">
-              play song
-            </th>
-            
-          </tr>
-          <tr *ngFor="let song of recentSongs">
-          
-          <td #td1 class="col-md-4">{{song.name}}</td>
-          <td #td2 class="col-md-4" >{{song.filmname}}</td>
-          <td #td3 class="col-md-4" hidden="true">{{song.releasedate}}</td>
-          <td #td4 class="col-md-4" >{{song.artists}}</td>
-          <td #td5 class="col-md-4" hidden="true">{{song.link}}</td>
-          <td #td6 class="col-md-4" hidden="true">{{song.catagory}}</td>
-          <td  class="col-md-2">
-            <i (click)=playSong(td5.innerHTML,td5.innerHTML) class="fa fa-play" title="Play"></i>
-          </td>
-          
-        </tr>
-        </tbody>
-      </table>
-    </div>
-    <br/>
-    <h4><b>Catagory</b></h4>
-    <div class="songcontainer">
+    <hr>
+
+    <h4><b>Catagories</b></h4>
+    <div class="songcontainer2">
       
       <table class="table table-hover">
         <tbody>
@@ -152,12 +186,14 @@
                     
                 });
             </script> -->
-             <div class="div2" title="{{pnm.Catagory}}">
-               <a routerLink="/catagory/{{pnm.Catagory}}" title="{{pnm.Catagory}}" routerLinkActive="active" style="text-decoration: none">
-                {{pnm.Catagory}}
-             </a>
+            <div class="div2" title="{{pnm.Catagory}}">
+              <a routerLink="/catagory/{{pnm.Catagory}}" title="{{pnm.Catagory}}" routerLinkActive="active" style="text-decoration: none">
+                <div class="containerImg div2">
+                <img class="img-fluid" src="assets/images/ct.png" style=""/>
+                <div class="centered">{{pnm.Catagory}}</div>
+                </div>
+              </a>
             </div>
-            
           </td>
         </tbody>
       </table>

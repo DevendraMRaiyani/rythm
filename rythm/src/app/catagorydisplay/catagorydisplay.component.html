@@ -72,7 +72,7 @@
                             
                             <td class="col-md-1" *ngIf="isLogin;then eb else tb"></td>
                             <ng-template #tb>
-                                <a routerLink="/playlist/{{pnm}}" style="margin-left:30px;margin-top:15px;color:black;text-decoration: none;"><i (click)=likeSong(td1.innerHTML) title="add to My Favourite" class="fa fa-heart-o" style="font-size:20px;"></i></a>&nbsp;
+                                <a routerLink="/catagory/{{pnm}}" style="margin-left:30px;margin-top:15px;color:black;text-decoration: none;"><i (click)=likeSong(td1.innerHTML) title="add to My Favourite" class="fa fa-heart-o" style="font-size:20px;"></i></a>&nbsp;
                             </ng-template>
                             <ng-template #eb>
                             </ng-template>

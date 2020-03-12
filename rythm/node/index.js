@@ -67,7 +67,7 @@ app.get('/loadRecentSongs',(req,res)=>{
     dbo.collection("songs").find({}).sort({$natural:-1}).limit(20).toArray( function(err, result) {
       if (err) throw err;
       //console.log("catagories ok");
-      console.log("res"+result);
+      //console.log("res"+result);
       res.json(result);
       
     });
@@ -83,7 +83,7 @@ app.get('/loadcategorysongs',(req,res)=>{
     
     
     if (err) throw err;
-    console.log("res"+result);
+    //console.log("res"+result);
     res.json(result);
     // var selectedIds=result[0].songs;
     // console.log(selectedIds);
@@ -116,7 +116,7 @@ app.get('/loadsongs',(req,res)=>{
 		
     if (err) throw err;
     var selectedIds=result[0].songs;
-    console.log(selectedIds);
+    //console.log(selectedIds);
 
   
     db.collection('songs').find().toArray(function(err, result1){ 
@@ -377,7 +377,7 @@ app.get('/loadMyFavouriteSongs',(req,res)=>{
 			}
 		  ]).toArray( function(err, result) {
       if (err) throw err;
-      //console.log(result);
+     // console.log(result);
 		  console.log("my favourite list : "+uid+" : ok");
 		  res.json(result);
 		  db.close();
