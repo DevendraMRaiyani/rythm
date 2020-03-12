@@ -55,6 +55,57 @@ app.get('/searchsong',(req,res)=>{
 	});
 });
 
+
+app.get('/loadRecentSongs',(req,res)=>{
+  MongoClient.connect(url,{
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+    }, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("rythm");
+    //Find the first document in the customers collection:
+    dbo.collection("songs").find({}).sort({$natural:-1}).limit(20).toArray( function(err, result) {
+      if (err) throw err;
+      //console.log("catagories ok");
+      console.log("res"+result);
+      res.json(result);
+      
+    });
+});
+})
+app.get('/loadcategorysongs',(req,res)=>{
+  var response;
+  var url_parts = geturl.parse(req.url, true);
+  var pname = url_parts.query.pname;
+  var data={"catagory":pname}
+
+  db.collection('songs').find(data).toArray(function(err, result){ 
+    
+    
+    if (err) throw err;
+    console.log("res"+result);
+    res.json(result);
+    // var selectedIds=result[0].songs;
+    // console.log(selectedIds);
+
+  
+//     db.collection('songs').find().toArray(function(err, result1){ 
+//       if (err) throw err;
+//           var songsObj=[];
+//           selectedIds.forEach(element => {
+//             result1.forEach(elements => {
+//                 if(elements._id==element)
+//                   songsObj.push(elements);
+                  
+//             });
+//           });
+// //          console.log(songsObj);
+//           res.json(songsObj);
+//         });
+	});
+
+})
+
 app.get('/loadsongs',(req,res)=>{
   var response;
   var url_parts = geturl.parse(req.url, true);
@@ -279,6 +330,23 @@ app.get('/remove',(req,res)=>{
 		res.json(result.result);
 	});	  
 });
+
+app.get('/loadCata',(req,res)=>{
+  MongoClient.connect(url,{
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+    }, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("rythm");
+    //Find the first document in the customers collection:
+    dbo.collection("Catagories").find({}).toArray( function(err, result) {
+      if (err) throw err;
+      //console.log("catagories ok");
+      res.json(result);
+      db.close();
+    });
+});
+})
 
 app.get('/loadMyFavouriteSongs',(req,res)=>{
 	var url_parts = geturl.parse(req.url, true);

@@ -16,10 +16,12 @@ import { OtpComponent } from './otp/otp.component';
 import { ChangepassComponent } from './changepass/changepass.component';
 import { NgxAudioPlayerModule } from 'ngx-audio-player';
 import { CookieService } from 'ngx-cookie-service';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { FooterComponent } from './footer/footer.component';
 import { MyplaylistComponent } from './myplaylist/myplaylist.component';
+import { CatagorydisplayComponent } from './catagorydisplay/catagorydisplay.component';
 const appRoutes: Routes = [
   {
       path      : '',
@@ -50,6 +52,10 @@ const appRoutes: Routes = [
     component: OtpComponent
   },
   {
+    path:'catagory/:pname',
+    component:CatagorydisplayComponent
+  },
+  {
     path      : 'playlist/:pname',
     component: PlaylistdisplayComponent
   }];
@@ -67,7 +73,8 @@ const appRoutes: Routes = [
     OtpComponent,
     ChangepassComponent,
     FooterComponent,
-    MyplaylistComponent
+    MyplaylistComponent,
+    CatagorydisplayComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -77,6 +84,7 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     MatButtonModule,
     NgxAudioPlayerModule,
+    Ng2SearchPipeModule,
     NgbModule,
     AngularFontAwesomeModule
   ],
