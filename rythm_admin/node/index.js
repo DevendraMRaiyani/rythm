@@ -219,6 +219,22 @@ app.get('/checkCatagory',(req,res)=>{
   });
   })
 
+  app.get('/loadCataWithSongsCount',(req,res)=>{
+    MongoClient.connect(url,{
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+      }, function(err, db) {
+      if (err) throw err;
+      var dbo = db.db("rythm");
+      //Find the first document in the customers collection:
+      dbo.collection("songs").aggregate([{$group : {_id : "$catagory", count : {$sum : 1}}}]).toArray( function(err, result) {
+        if (err) throw err;
+        //console.log(result);
+        res.json(result);
+      });
+  });
+  })
+
   app.get('/loadPlaylists',(req,res)=>{
     MongoClient.connect(url,{
       useNewUrlParser: true,
@@ -379,6 +395,39 @@ app.get('/addCatagory',(req,res)=>{
       res.json("{n:1,ok:1}");		
   });
 
+  app.get('/adminHome',(req,res)=>{
+    var resJeson={};
+    MongoClient.connect(url,{
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+      }, function(err, db) {
+      if (err) throw err;
+      var dbo = db.db("rythm");
+      //Find the first document in the customers collection:
+      dbo.collection("playlists").find({}).toArray( function(err, result) {
+        if (err) throw err;
+        resJeson.plCount=result.length;
+        dbo.collection("songs").find({}).toArray( function(err, result1) {
+          if (err) throw err;
+          resJeson.songCount=result1.length;
+          dbo.collection("Catagories").find({}).toArray( function(err, result2) {
+            if (err) throw err;
+            resJeson.catCount=result2.length;
+            dbo.collection("users").find({}).toArray( function(err, result3) {
+              if (err) throw err;
+              resJeson.userCount=result3.length;
+              //console.log(resJeson);
+              db.close();
+              res.json(resJeson);
+            });
+          });
+        });
+      });
+      
+      
+    });
+  //console.log(resJeson);
+  })
 
 const prt = 8080;
 app.listen(prt,function(){
