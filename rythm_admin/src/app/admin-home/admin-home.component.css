@@ -18,6 +18,12 @@
 	}
 }
 popup*/
+
+.genSta{
+	text-align: right;
+	padding-right: 10px;
+}
+
 .carousel-control-next {
 	right: -9%;
 	z-index: -1;
