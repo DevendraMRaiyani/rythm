@@ -40,6 +40,10 @@ const appRoutes: Routes = [
   {
     path:'managesongs',
     component: ManageSongsComponent
+  },
+  {
+    path:'adminlogin',
+    component: AdminLoginComponent
   }
 ];
 

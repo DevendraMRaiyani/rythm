@@ -12,16 +12,24 @@ import { CookieService } from 'ngx-cookie-service';
 export class HomeComponent implements OnInit {
   playlists
   constructor(public http:Http,public cookie:CookieService) { }
- 
+  searchText;
+  catagories;
   isLogin=true;
   user
+  msbapTitle = 'Audio Title';
+  msbapAudioUrl = 'Link to audio URL';   
+     
+  msbapDisplayTitle = false; 
+  msbapDisplayVolumeControls = true; 
+  recentSongs;
   ngOnInit() {
     if(this.cookie.check("uid")){
       this.isLogin=false;
       this.user=this.cookie.get("uname");
     }
     this.http.get("http://localhost:3000/loadplaylist").subscribe((data) => this.displayData(data));
-    
+    this.http.get("http://localhost:3000/loadRecentSongs").subscribe((data) => this.loadSongs(data));
+    this.http.get("http://localhost:3000/loadCata").subscribe((data) => this.loadCatag(data));
     $(document).ready(function(){
      
       $("#search").mouseover(function(){
@@ -38,6 +46,30 @@ export class HomeComponent implements OnInit {
       });
       });
         
+  }
+  loadCatag(data)
+  {
+    var x;
+    x=data;
+    var y = Array.of(x._body);
+    var arr=JSON.parse(<any>y);
+    this.catagories=arr;
+  }
+  loadSongs(data)
+  {
+    var x;
+    x=data;
+    var y = Array.of(x._body);
+    var arr=JSON.parse(<any>y);
+    this.recentSongs=arr;
+    //console.log("ress"+this.recentSongs);
+  }
+  playSong(link,Title)
+  {
+    this.msbapAudioUrl = 'assets/songs/'+ link;
+    this.msbapTitle = Title;
+    this.msbapDisplayTitle = true;
+    
   }
   displayData(data){
     var x;
