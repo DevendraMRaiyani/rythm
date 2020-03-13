@@ -66,7 +66,8 @@ export class HomeComponent implements OnInit {
   }
   playSong(link,Title)
   {
-    this.msbapAudioUrl = 'assets/songs/'+ link;
+    //console.log(link+" "+Title)
+    this.msbapAudioUrl = './assets/songs/'+ link;
     this.msbapTitle = Title;
     this.msbapDisplayTitle = true;
     
