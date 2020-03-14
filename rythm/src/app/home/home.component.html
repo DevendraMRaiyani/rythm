@@ -64,7 +64,7 @@
         </div>
         <div class="col-sm-5 col-md-8 col-lg-8 col-xl-8">
                 <div class="row">
-                    <form class="form-inline" style="width:80%;" action="soon.html">
+                    <!--<form class="form-inline" style="width:80%;" action="soon.html">
                         <div class="form-group has-search" style="width:80%;border-radius:20px;">
                             <span class="fa fa-search form-control-feedback"></span>
                          
@@ -73,7 +73,7 @@
                               <a href="#">{{sg.name}}</a>
                             </div>
                         </div>
-                    </form>
+                    </form>-->
                 </div>
         </div>
 <br><br><br>
@@ -117,7 +117,7 @@
         </tr>
         <tr *ngFor="let song of recentSongs">
           <td  class="col-md-1">
-            <i (click)=playSong(td5.innerHTML,td5.innerHTML) class="fa fa-play" title="Play"></i>
+            <i (click)=playSong(td5.innerHTML,td1.innerHTML) class="fa fa-play" title="Play"></i>
           </td>
           <td #td1 class="col-md-4">{{song.name}}</td>
           <td #td2 class="col-md-4" >{{song.filmname}}</td>
@@ -189,7 +189,7 @@
             <div class="div2" title="{{pnm.Catagory}}">
               <a routerLink="/catagory/{{pnm.Catagory}}" title="{{pnm.Catagory}}" routerLinkActive="active" style="text-decoration: none">
                 <div class="containerImg div2">
-                <img class="img-fluid" src="assets/images/ct.png" style=""/>
+                <img class="img-fluid" src="assets/images/ct.png"/>
                 <div class="centered">{{pnm.Catagory}}</div>
                 </div>
               </a>
